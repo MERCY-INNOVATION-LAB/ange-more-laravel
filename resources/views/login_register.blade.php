@@ -70,7 +70,7 @@
 <div class="container">
   <div class="form-container" >
     <div class="form" id="login-form">
-      <img src="logo.png" class=""/>
+      <img src="/images/logo.png" class=""/>
     <h4 class="text-center mb-3">Se connecter</h4>
     <form method="POST" action="/login">
       <div class="form-floating mb-3">
@@ -93,11 +93,7 @@
     </form>
     </div>
     <div id="image-login" class="img">
-<<<<<<< HEAD
-    <img src="https://img.freepik.com/free-vector/access-control-system-abstract-concept_335657-3180.jpg?semt=ais_hybrid&w=740&q=80"  />
-=======
-    <img src="../images/Login.gif"  />
->>>>>>> 48be15d (images login et register)
+      <img src="./images/Login.gif"  />
     </div>
     <div id="register-form" class="form">
       <h4 class="text-center mb-4">S'inscrire</h4>
@@ -127,11 +123,7 @@
       </form>
     </div>
     <div id="image-regist" class="img">
-<<<<<<< HEAD
-      <img src="https://img.freepik.com/premium-vector/mobile-login-concept-illustration_114360-83.jpg"  />
-=======
-      <img src="../images/Signupp.gif"  />
->>>>>>> 48be15d (images login et register)
+      <img src="./images/Signup.gif"  />
     </div>
   </div>
 </div>
