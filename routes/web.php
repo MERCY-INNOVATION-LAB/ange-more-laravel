@@ -9,6 +9,10 @@ Route::get('/', function () {
     return view("login_register");
 })->name('home');
 
+Route::get('/login', function () {
+    return view('login_register');
+});
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
