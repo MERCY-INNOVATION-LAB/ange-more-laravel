@@ -19,7 +19,7 @@
     .form-container{
       display:flex;
       justify-content: space-between;
-      
+
     }
     .form{
       width:50%;
@@ -47,7 +47,7 @@
       width:50%;
       transition: all 0.5s ease;
     }
-   
+
     .reverse{
       flex-direction: row-reverse;
     }
@@ -93,7 +93,7 @@
     </form>
     </div>
     <div id="image-login" class="img">
-    <img src="Login.gif"  />
+    <img src="https://img.freepik.com/free-vector/access-control-system-abstract-concept_335657-3180.jpg?semt=ais_hybrid&w=740&q=80"  />
     </div>
     <div id="register-form" class="form">
       <h4 class="text-center mb-4">S'inscrire</h4>
@@ -123,7 +123,7 @@
       </form>
     </div>
     <div id="image-regist" class="img">
-      <img src="Signup.gif"  />
+      <img src="https://img.freepik.com/premium-vector/mobile-login-concept-illustration_114360-83.jpg"  />
     </div>
   </div>
 </div>
