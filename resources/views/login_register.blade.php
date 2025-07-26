@@ -70,7 +70,7 @@
 <div class="container">
   <div class="form-container" >
     <div class="form" id="login-form">
-      <img src="/images/logo.png" class=""/>
+      <img src="/images/Logo1.png" class=""/>
     <h4 class="text-center mb-3">Se connecter</h4>
     <form method="POST" action="/login">
       <div class="form-floating mb-3">
