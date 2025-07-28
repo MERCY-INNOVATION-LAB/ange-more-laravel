@@ -60,8 +60,8 @@
         color: white;
     }
     img{
-      width:90px;
-      height:70px;
+      width:115px;
+      height:100px;
       margin-left:33%;
     }
   </style>

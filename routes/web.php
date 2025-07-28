@@ -6,7 +6,7 @@ use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view("login_register");
+    return view("dashboard");
 })->name('home');
 
 Route::get('/login', function () {
