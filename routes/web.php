@@ -11,7 +11,7 @@ Route::get('/', function () {
 
 Route::get('/login', function () {
     return view('login_register');
-});
+})->name('login-register');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -25,4 +25,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 });
 
-require __DIR__.'/auth.php';
+// require __DIR__.'/auth.php';
