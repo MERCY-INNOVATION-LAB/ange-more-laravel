@@ -12,21 +12,53 @@
   <style>
     body{
       font-family: 'poppins', sans serif;
+      background: linear-gradient(to bottom right, #f0f4ff, #ffffff);
+
     }
     nav{
       direction:flex;
       align-items:center;
       justify-content:space-between;
+      margin-top:9px;
+      margin-left:15px;
+      margin-right:15px;
+      border-radius:30px;
+
+    }
+    .navbar-nav .nav-link {
+      position: relative;
+      font-weight: 500;
+      color: #000;
+      transition: color 0.3s;
+    }
+
+    .navbar-nav .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #2563eb;
+      transition: width 0.3s ease;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #2563eb;
+    }
+
+    .navbar-nav .nav-link:hover::after {
+      width: 100%;
     }
     img{
       width:140px;
     }
     .glass-navbar {
-      background: rgba(255, 255, 255, 0.2); /* fond semi-transparent */
-      backdrop-filter: blur(10px);          /* effet flou derrière */
-      -webkit-backdrop-filter: blur(10px);  /* compatibilité Safari */
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* ligne subtile */
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.2); 
+      backdrop-filter: blur(5px);          
+      -webkit-backdrop-filter: blur(5px);  
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+       box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
     }
 
     .hero {
@@ -46,16 +78,20 @@
     color: white;
   }
 
-  .btn-inverse {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #2563eb;  
-    color: white;               
-    border: 1px solid #2563eb;  
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s, color 0.3s;
-  }
+  .btn-reverse {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #2563eb;
+      color: white;
+      border: 2px solid #2563eb;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    .btn-reverse:hover {
+      background-color: transparent;
+      color: #2563eb;
+    }
     .feature-card:hover {
       box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
       transition: 0.3s;
@@ -67,32 +103,27 @@
 </head>
 <body>
   <!-- Navbar -->
-   <header clas="p-7" >
-   <nav class="navbar navbar-expand-lg  glass-navbar bg-light ">
-    <div class="container-fluid">
-    <a class="navbar-brand fw-bold" href="#home">
-      <img src="./images/Ezstore.png" class="h-50"/>
-    </a>
+   <header>
+    <nav class="navbar navbar-expand-lg glass-navbar fixed-top">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="#home">
+          <img src="./images/Ezstore.png" alt="Ezstore Logo" />
+        </a>
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse justify-content-between" id="mainNavbar">
-          <ul class="navbar-nav mx-auto">
-            <li class="nav-item mx-3">
-              <a class="nav-link" href="#home">Accueil</a>
-            </li>
-            <li class="nav-item mx-3">
-              <a class="nav-link" href="#features">Fonctionnalités</a>
-            </li>
-            <li class="nav-item mx-3">
-              <a class="nav-link" href="#pricing">Abonnements</a>
-            </li>
-             <li class="nav-item mx-3">
-              <a class="nav-link" href="#contact">Contact</a>
-            </li>
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item mx-3"><a class="nav-link" href="#home">Accueil</a></li>
+            <li class="nav-item mx-3"><a class="nav-link" href="#features">Fonctionnalités</a></li>
+            <li class="nav-item mx-3"><a class="nav-link" href="#pricing">Abonnements</a></li>
+            <li class="nav-item mx-3"><a class="nav-link" href="#contact">Contact</a></li>
           </ul>
-             <div class="d-flex">
-            <a href="{{ route('login-register') }}" class="btn btn-outline-primary">Se connecter</a>
-            </div>
-    </div>
-</header>
+          <a href="{{ route('login-register') }}" class="btn btn-outline-custom">Se connecter</a>
+        </div>
+      </div>
+    </nav>
+  </header>
 
   <!-- Hero Section -->
   <!-- <section class="hero text-center d-flex align-items">
@@ -130,10 +161,11 @@
         </span>
       </div>
       <div class="col-md">
-      <span>
-        <img src="./images/Work.png" class="w-100 h-100"/>
+        <span>
+          
+          <img src="./images/Work.png" class="w-100 h-100"/>
 
-      </span>
+        </span>
 
      </div>
     </div>
@@ -161,3 +193,5 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
