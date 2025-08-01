@@ -55,8 +55,8 @@
     }
     .glass-navbar {
       background: rgba(255, 255, 255, 0.2); 
-      backdrop-filter: blur(5px);          
-      -webkit-backdrop-filter: blur(5px);  
+      backdrop-filter: blur(5px);         
+      -webkit-backdrop-filter: blur(5px); 
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
     }
@@ -83,14 +83,16 @@
       font-size: 16px;
       background-color: #2563eb;
       color: white;
-      border: 2px solid #2563eb;
       border-radius: 5px;
       transition: 0.3s;
+
     }
 
     .btn-reverse:hover {
       background-color: transparent;
       color: #2563eb;
+      border: 1px solid #2563eb;
+      
     }
     .feature-card:hover {
       box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
@@ -98,6 +100,21 @@
     }
     .mor{
       color: #2563eb;
+    }
+
+    .contact,.pricing{
+      color:#2563eb;
+      font-size:34px;
+    }
+
+    textarea{
+      width:550px;
+      height:200px;
+      border-radius:5px;
+      border:1px solid gray ;
+    }
+    .text:focus{
+      border-color:#2563eb;
     }
   </style>
 </head>
@@ -124,20 +141,9 @@
       </div>
     </nav>
   </header>
-
-  <!-- Hero Section -->
-  <!-- <section class="hero text-center d-flex align-items">
-    <div class="container">
-      
-    </div>
-
-    <div class="container">
-
-    <p>bonjour   uwrfw</p>
-
-    </div>
-  </section> -->
-  <div class="container">
+  <!-- hero section -->
+<section id="home">
+  <div class="container mt-5">
     <div class="row justify-content-between">
      <div class="col-7 mt-5">
       <span class="display-5 fw-bold ">
@@ -160,7 +166,7 @@
           </a>
         </span>
       </div>
-      <div class="col-md">
+      <div class="col-md col-sm-4">
         <span>
           
           <img src="./images/Work.png" class="w-100 h-100"/>
@@ -170,22 +176,279 @@
      </div>
     </div>
   </div>
+  </section>
 
   <!-- Features -->
-  <section id="features" class="py-5 bg-light">
-   
-  </section>
+    <section id="features" class="mt-4 py-5 bg-light">
+  <div class="container">
+    <h3 class="text-center text-primary fw-bold mb-4 fs-2">Fonctionnalités principales</h3>
+    <h5 class="text-center text-muted mx-auto mb-5" style="max-width: 700px;">
+      Tout ce dont vous avez besoin pour gérer efficacement votre boutique électronique
+    </h4>
 
- 
-  </section>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <div class="bg-primary bg-opacity-10 rounded d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+              <i class="fas fa-boxes text-primary fs-5"></i>
+            </div>
+            <h5 class="card-title fw-semibold">Gestion des stocks</h5>
+            <p class="card-text">Suivi en temps réel des entrées et sorties de produits électroniques dans chaque boutique.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <div class="bg-primary bg-opacity-10 rounded d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+              <i class="fas fa-receipt text-primary fs-5"></i>
+            </div>
+            <h5 class="card-title fw-semibold">Facturation automatisée</h5>
+            <p class="card-text">Générez des factures rapidement pour vos ventes avec export en PDF.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm border-0 bg-light">
+          <div class="card-body">
+            <div class="bg-primary bg-opacity-10 rounded d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+              <i class="fas fa-store-alt text-primary fs-5"></i>
+            </div>
+            <h5 class="card-title fw-semibold">Multi-boutiques</h5>
+            <p class="card-text">Gérez plusieurs points de vente avec des utilisateurs différents par boutique.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <div class="bg-primary bg-opacity-10 rounded d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+              <i class="fas fa-users-cog text-primary fs-5"></i>
+            </div>
+             <h5 class="card-title fw-semibold">Gestion du personnel</h5>
+            <p class="card-text">Attribuez des rôles et suivez l’activité de votre équipe par boutique.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <div class="bg-primary bg-opacity-10 rounded d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+              <i class="fas fa-chart-line text-primary fs-5"></i>
+            </div>
+            <h5 class="card-title fw-semibold">Statistiques & rapports</h5>
+            <p class="card-text">Visualisez les performances commerciales à travers des tableaux de bord dynamiques.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <div class="bg-primary bg-opacity-10 rounded d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+              <i class="fas fa-lock text-primary fs-5"></i>
+            </div>
+            <h5 class="card-title fw-semibold">Accès sécurisé</h5>
+            <p class="card-text">Connexion sécurisée avec gestion des droits utilisateurs selon les profils.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Pricing -->
+  <section id="pricing" class="py-5">
+  <div class="container">
+    <div class="row justify-content-center mb-5">
+
+      <div class="col-md text-center ">
+
+        <span class="pricing fw-bold"> Tarifs transparents </span>
+        <br>
+        <span class="text-muted"> Choisissez le plan qui correspond a vos besoins </span>
+      </div>
+    </div>
+    <div class="row g-4 justify-content-center">
+
+      <div class="col-lg-4 col-md-6">
+        <div class="card shadow-lg h-100">
+          <div class="card-body p-4">
+            <h3 class="h4 fw-semibold mb-3">Basique</h3>
+            <div class="display-6 fw-bold text-primary mb-4">
+              5000 FCFA
+              <span class="fs-6 text-muted">/mois</span>
+            </div>
+            <ul class="list-unstyled mb-4">
+              <li class="d-flex align-items-center mb-2">
+                <i class="fas fa-check text-success me-2"></i> Jusqu'à 100 produits
+              </li>
+              <li class="d-flex align-items-center mb-2">
+                <i class="fas fa-check text-success me-2"></i> 1 utilisateur
+              </li>
+              <li class="d-flex align-items-center mb-2">
+                <i class="fas fa-check text-success me-2"></i> Support email
+              </li>
+              <li class="d-flex align-items-center mb-2">
+                <i class="fas fa-check text-success me-2"></i> Rapports de base
+              </li>
+            </ul>
+            <button class="btn btn-outline-custom w-100 py-2 fw-semibold">Commencer</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="card shadow-lg h-100 ">
+          <div class="card-body p-4">
+            <h3 class="h4 fw-semibold mb-3">Standard</h3>
+            <div class="display-6 fw-bold text-primary mb-4">
+              15 000 FCFA
+              <span class="fs-6 text-muted">/mois</span>
+            </div>
+            <ul class="list-unstyled mb-4">
+              <li class="d-flex align-items-center mb-2">
+                <i class="fas fa-check text-success me-2"></i> Produits illimités
+              </li>
+              <li class="d-flex align-items-center mb-2">
+                <i class="fas fa-check text-success me-2"></i> 5 utilisateurs
+              </li>
+              <li class="d-flex align-items-center mb-2">
+                <i class="fas fa-check text-success me-2"></i> Support prioritaire
+              </li>
+              <li class="d-flex align-items-center mb-2">
+                <i class="fas fa-check text-success me-2"></i> Analytics avancés
+              </li>
+              <li class="d-flex align-items-center mb-2">
+                <i class="fas fa-check text-success me-2"></i> Accès API
+              </li>
+            </ul>
+            <button class="btn btn-outline-custom w-100 py-2 fw-semibold">Commencer</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="card shadow-lg h-100  rounded-1xl">
+          <div class="card-body p-4">
+            <h3 class="h4 fw-semibold mb-3">Premium</h3>
+            <div class="display-6 fw-bold text-primary mb-4">
+              30 000 FCFA
+              <span class="fs-6 text-muted">/mois</span>
+            </div>
+            <ul class="list-unstyled mb-4">
+              <li class="d-flex align-items-center mb-2">
+                <i class="fas fa-check text-success me-2"></i> Tous les avantages Standard
+              </li>
+              <li class="d-flex align-items-center mb-2">
+                <i class="fas fa-check text-success me-2"></i> Comptes équipe illimités
+              </li>
+              <li class="d-flex align-items-center mb-2">
+                <i class="fas fa-check text-success me-2"></i> Support téléphonique 24/7
+              </li>
+              <li class="d-flex align-items-center mb-2">
+                <i class="fas fa-check text-success me-2"></i> Intégration ERP
+              </li>
+              <li class="d-flex align-items-center mb-2">
+                <i class="fas fa-check text-success me-2"></i> Sauvegardes automatiques
+              </li>
+            </ul>
+            <button class="btn btn-outline-custom w-100 py-2 fw-semibold">Commencer</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 
   <!-- Contact -->
-  <section>
+  <section id="contact">
+
+    <div class="container " >
+
+      <div class="row d-flex justify-content-center">
+
+        <div class="col-md">
+
+          <span class="text-center fw-bold ">
+            <p class="contact"> Nous contacter</p>
+          </span>
+          
+          <span class="text-center text-gray-600 ">
+            <p class="mb-4">Une question, une demande ? Laissez-nous un message !</p>
+          </span>
+      
+        </div>
+      </div>
+      <div class="row justify-content-center">
+
+        <div class="col-6">
+
+          <div class="form">
+
+            <form>
+              <div class="form-group mb-3">
+
+                <input type="text" class="form-control" placeholder="Entrer votre nom"/>
+
+              </div>
+              <div class="form-group mb-3">
+
+              <input type="text" class="form-control" placeholder="Entrer votre email"/>
+
+              </div>
+              <div class="form-group mb-3">
+
+              <textarea class="text">
+                Message
+              </textarea>
+
+              </div>
+              <a type="submit" class="btn btn-outline-custom text-center">
+                Envoyer
+              </a>
+
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-dark text-white text-center py-4">
+  <footer class="bg-dark text-white mt-5 py-4">
     <div class="container">
+      <div class="row justify-content-between">
+        
+        <div class="col-5">
+
+          <h4 class="font-semibold text-lg mb-2">EzStore</h4>
+          <p>Solution de gestion de boutique pour professionnels de l'électronique.</p>
+        </div>
+         <div class="col-3">
+
+            <h4 class="font-semibold text-lg mb-2">Navigation</h4>
+          <ul>
+            <li  class="list-unstyled"><a href="#home" style="text-decoration:none; color:white; ">Accueil</a></li>
+            <li  class="list-unstyled"><a href="#features"  style="text-decoration:none; color:white;">Fonctionnalités</a></li>
+            <li  class="list-unstyled"><a href="#pricing"  style="text-decoration:none; color:white;">Abonnements</a></li>
+            <li  class="list-unstyled"><a href="#contact"  style="text-decoration:none; color:white;">Contact</a></li>
+          </ul>
+        </div>
+         <div class="col-4">
+            <h4 class="font-semibold text-lg mb-2">Contact</h4>
+            <p>Email : angebangue1@gmail.com</p>
+            <p>Téléphone : +237 6 52 56 56 06</p>
+        </div>
+      </div>
       &copy; 2025 Ezstore. Tous droits réservés.
     </div>
   </footer>
