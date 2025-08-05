@@ -13,6 +13,10 @@ Route::get('/login', function () {
     return view('login_register');
 })->name('login-register');
 
+Route::get('/dashboardP', function () {
+    return view('dashboardP');
+});
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');

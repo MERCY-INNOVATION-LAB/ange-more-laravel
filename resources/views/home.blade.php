@@ -22,7 +22,7 @@
       margin-top:9px;
       margin-left:15px;
       margin-right:15px;
-      border-radius:30px;
+      border-radius:20px;
 
     }
     .navbar-nav .nav-link {
@@ -67,7 +67,7 @@
       padding-bottom: 4rem;
     }
     .btn-outline-custom {
-    border: 1px solid #2563eb;   /* Couleur en hex */
+    border: 1px solid #2563eb;  
     color: #2563eb;
     background-color: transparent;
     transition: 0.3s;
@@ -94,6 +94,13 @@
       border: 1px solid #2563eb;
       
     }
+    .btn-follow-cursor {
+      position: relative;
+      transition: transform 0.15s ease;
+      will-change: transform;
+      z-index: 1;
+    }
+
     .feature-card:hover {
       box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
       transition: 0.3s;
@@ -156,12 +163,12 @@
         </p>
         <span>
        <span class="mt-6 mx-4">
-          <a type="button" href="" class="btn btn-outline-custom"><i class="fas fa-rocket mr-2"></i>
+          <a type="button" href="" class="btn btn-outline-custom btn-follow-cursor"><i class="fas fa-rocket mr-2"></i>
             Démarrer gratuitement
           </a>
         </span>
         <span>
-          <a type="button" href="" class="btn btn-reverse"><i class="fas fa-play mr-2"></i>
+          <a type="button" href="" class="btn btn-reverse btn-follow-cursor"><i class="fas fa-play mr-2"></i>
             Voir la démo
           </a>
         </span>
@@ -406,8 +413,8 @@
               </div>
               <div class="form-group mb-3">
 
-              <textarea class="text">
-                Message
+              <textarea class="form-control">
+                Messages
               </textarea>
 
               </div>
@@ -452,6 +459,46 @@
       &copy; 2025 Ezstore. Tous droits réservés.
     </div>
   </footer>
+   <script>
+  document.querySelectorAll('.btn-follow-cursor').forEach(button => {
+    button.addEventListener('mousemove', (e) => {
+      const rect = button.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const moveX = (x - centerX) * 0.2; // ajuster ici la "force"
+      const moveY = (y - centerY) * 0.2;
+
+      button.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    });
+
+    button.addEventListener('mouseleave', () => {
+      button.style.transform = 'translate(0px, 0px)';
+    });
+  });
+</script>
+<script>
+  document.querySelectorAll('.btn-follow-cursor').forEach(button => {
+    button.addEventListener('mousemove', (e) => {
+      const rect = button.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const moveX = (x - centerX) * 0.2; // ajuster ici la "force"
+      const moveY = (y - centerY) * 0.2;
+
+      button.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    });
+
+    button.addEventListener('mouseleave', () => {
+      button.style.transform = 'translate(0px, 0px)';
+    });
+  });
+</script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
