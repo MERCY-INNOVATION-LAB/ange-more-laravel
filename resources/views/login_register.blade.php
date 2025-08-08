@@ -61,18 +61,27 @@
     }
     img{
       width:115px;
-      height:100px;
       margin-left:33%;
     }
   </style>
 </head>
 <body>
+    @if(session('error'))
+      <div class="alert alert-danger alert-dismissible fade show" role="alert m-3">
+          {{ session('error') }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endif
 <div class="container">
+   
   <div class="form-container" >
+
     <div class="form" id="login-form">
       <img src="/images/Ezstore.png" class=""/>
+      
     <h4 class="text-center mb-3">Se connecter</h4>
     <form method="POST" action="/login">
+      @csrf
       <div class="form-floating mb-3">
         <input type="email" class="form-control" id="email" name="email" placeholder="Entrer votre e-mail" required>
         <label class="form-label">email</label>
@@ -96,22 +105,29 @@
       <img src="./images/Login.gif"  />
     </div>
     <div id="register-form" class="form">
+      @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
       <h4 class="text-center mb-4">S'inscrire</h4>
       <form method="POST" action="/register">
+        @csrf
         <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="name" name="name" placeholder="Entrer votre nom" required>
+          <input type="text" class="form-control" id="" name="name" placeholder="Entrer votre nom" required>
           <label class="form-label">Nom</label>
         </div>
         <div class="form-floating mb-3">
-          <input type="email" class="form-control" id="email" name="email" placeholder="Entrer votre e-mail" required>
+          <input type="email" class="form-control" id="" name="email" placeholder="Entrer votre e-mail" required>
           <label class="form-label mb-3">Adresse e-mail</label>
         </div>
         <div class="form-floating mb-3">
-          <input type="password" class="form-control" id="password" name="password" placeholder="Entrer votre mot de passe" required>
+          <input type="password" class="form-control" id="" name="password" placeholder="Entrer votre mot de passe" required>
           <label for="password" class="form-label">Mot de passe</label>
         </div>
         <div class="form-floating mb-3">
-          <input type="password" class="form-control" id="password" name="password" placeholder="Entrer votre mot de passe" required>
+          <input type="password" class="form-control" id="" name="password" placeholder="Entrer votre mot de passe" required>
           <label for="password" class="form-label">Confirmer mot de passe</label>
         </div>
         <div class="d-grid">

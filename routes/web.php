@@ -4,6 +4,7 @@ use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\RegisterController;
 
 Route::get('/', function () {
     return view("home");
@@ -12,6 +13,10 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('login_register');
 })->name('login-register');
+
+Route::post('/register',[RegisterController::class,'register']);
+
+Route::post('/login',[RegisterController::class,'login']);
 
 Route::get('/dashboardP', function () {
     return view('dashboardP');
