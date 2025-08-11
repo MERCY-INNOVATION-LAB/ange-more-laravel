@@ -5,6 +5,10 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ForgotPasswordMail;
+
+
 
 
 class RegisterController extends Controller
@@ -41,6 +45,20 @@ class RegisterController extends Controller
         }
         return redirect('/login')->with('errors','utilisateur introuvable');
 
+    }
+
+
+    public function forgotPassword(Request $request){
+        $email=$request->email;
+
+        $user=User::where('email',$email)->first();
+
+        if($user){
+
+            Mail::to($user->email)->send(new ForgotPasswordMail($user->email)); 
+
+            return redirect('/forgot-password')->with('success','Le lien de reinitialisation a ete envoye');
+        }
     }
 }
 

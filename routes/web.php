@@ -22,6 +22,12 @@ Route::get('/dashboardP', function () {
     return view('dashboardP');
 });
 
+Route::get('/forgot-password',function(){
+    return view('password_forgot');
+});
+
+Route::post('/forgot-password',[RegisterController::class,'forgotPassword']);
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
