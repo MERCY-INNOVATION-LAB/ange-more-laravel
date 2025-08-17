@@ -123,6 +123,31 @@
     .text:focus{
       border-color:#2563eb;
     }
+
+    /* .bg-primary {
+    background-color: #2563eb !important;
+  } */
+  
+    .hover-opacity-100:hover {
+      opacity: 1 !important;
+      text-decoration: underline;
+  }
+  
+    .opacity-75 {
+      opacity: 0.75;
+  }
+  
+    footer a {
+      transition: all 0.3s ease;
+  }
+  
+    footer i {
+      transition: transform 0.3s ease;
+  }
+  
+    footer a:hover i {
+      transform: translateY(-3px);
+  }
   </style>
 </head>
 <body>
@@ -221,7 +246,7 @@
       <div class="col-md-6 col-lg-4">
         <div class="card h-100 shadow-sm border-0 bg-light">
           <div class="card-body">
-            <div class="bg-primary bg-opacity-10 rounded d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+            <div class="bg-secondary bg-opacity-10 rounded d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
               <i class="fas fa-store-alt text-primary fs-5"></i>
             </div>
             <h5 class="card-title fw-semibold">Multi-boutiques</h5>
@@ -431,34 +456,100 @@
   </section>
 
   <!-- Footer -->
-  <footer class="bg-dark text-white mt-5 py-4">
-    <div class="container">
-      <div class="row justify-content-between">
-        
-        <div class="col-5">
-
-          <h4 class="font-semibold text-lg mb-2">EzStore</h4>
-          <p>Solution de gestion de boutique pour professionnels de l'électronique.</p>
+   <footer class="bg-primary text-white py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-5 col-md-6">
+        <div class="d-flex align-items-center mb-3">
+          <img src="./images/Ezstore.png" alt="EzStore Logo" width="120" class="me-2">
+          <h4 class="mb-0 fw-bold">EzStore</h4>
         </div>
-         <div class="col-3">
-
-            <h4 class="font-semibold text-lg mb-2">Navigation</h4>
-          <ul>
-            <li  class="list-unstyled"><a href="#home" style="text-decoration:none; color:white; ">Accueil</a></li>
-            <li  class="list-unstyled"><a href="#features"  style="text-decoration:none; color:white;">Fonctionnalités</a></li>
-            <li  class="list-unstyled"><a href="#pricing"  style="text-decoration:none; color:white;">Abonnements</a></li>
-            <li  class="list-unstyled"><a href="#contact"  style="text-decoration:none; color:white;">Contact</a></li>
-          </ul>
-        </div>
-         <div class="col-4">
-            <h4 class="font-semibold text-lg mb-2">Contact</h4>
-            <p>Email : angebangue1@gmail.com</p>
-            <p>Téléphone : +237 6 52 56 56 06</p>
+        <p class="opacity-75">Solution de gestion de boutique pour professionnels de l'électronique.</p>
+        <div class="mt-3">
+          <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-white me-3"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
-      &copy; 2025 Ezstore. Tous droits réservés.
+
+      <div class="col-lg-3 col-md-6">
+        <h5 class="fw-bold mb-3">Navigation</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item mb-2">
+            <a href="#home" class="nav-link p-0 text-white opacity-75 hover-opacity-100">Accueil</a>
+          </li>
+          <li class="nav-item mb-2">
+            <a href="#features" class="nav-link p-0 text-white opacity-75 hover-opacity-100">Fonctionnalités</a>
+          </li>
+          <li class="nav-item mb-2">
+            <a href="#pricing" class="nav-link p-0 text-white opacity-75 hover-opacity-100">Abonnements</a>
+          </li>
+          <li class="nav-item mb-2">
+            <a href="#contact" class="nav-link p-0 text-white opacity-75 hover-opacity-100">Contact</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <h5 class="fw-bold mb-3">Contact</h5>
+        <ul class="list-unstyled">
+          <li class="mb-2 d-flex align-items-center">
+            <i class="fas fa-envelope me-2"></i>
+            <span>angebangue1@gmail.com</span>
+          </li>
+          <li class="mb-2 d-flex align-items-center">
+            <i class="fas fa-phone-alt me-2"></i>
+            <span>+237 6 52 56 56 06</span>
+          </li>
+          <li class="mb-2 d-flex align-items-center">
+            <i class="fas fa-map-marker-alt me-2"></i>
+            <span>Douala, Cameroun</span>
+          </li>
+        </ul>
+      </div>
     </div>
-  </footer>
+
+    <hr class="my-4 opacity-25">
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center pt-3">
+      <div class="mb-3 mb-md-0">
+        &copy; 2025 EzStore. Tous droits réservés.
+      </div>
+      <div>
+        <a href="#" class="text-white text-decoration-none me-3">Conditions d'utilisation</a>
+        <a href="#" class="text-white text-decoration-none">Politique de confidentialité</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .bg-primary {
+    background-color: #2563eb !important;
+  }
+  
+  .hover-opacity-100:hover {
+    opacity: 1 !important;
+    text-decoration: underline;
+  }
+  
+  .opacity-75 {
+    opacity: 0.75;
+  }
+  
+  footer a {
+    transition: all 0.3s ease;
+  }
+  
+  footer i {
+    transition: transform 0.3s ease;
+  }
+  
+  footer a:hover i {
+    transform: translateY(-3px);
+  }
+</style>
    <script>
   document.querySelectorAll('.btn-follow-cursor').forEach(button => {
     button.addEventListener('mousemove', (e) => {

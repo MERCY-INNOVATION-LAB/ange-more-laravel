@@ -10,7 +10,7 @@
     <style>
         .bg-blue-theme { 
             font-family: 'poppins', sans serif;
-            background: linear-gradient(to bottom right, #f0f4ff, #ffffff);
+            background : linear-gradient(to bottom right, #f0f4ff, #ffffff);
 
         }
         .btn-blue {
