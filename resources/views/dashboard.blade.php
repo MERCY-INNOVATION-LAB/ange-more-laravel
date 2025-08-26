@@ -147,9 +147,15 @@
                <div class="me-3">
                  <i class="fas fa-chart-line text-primary fs-4"></i>
                </div>
-               <div>
-                 <h4 class="mb-0 fw-bold text-dark">Tableau de bord</h4>
-                 <small class="text-muted">Vue d'ensemble de votre activité</small>
+               <div class="d-flex justify-content-between align-items-center">
+                 <div class="more">
+                    <h4 class="mb-0 fw-bold text-dark">Tableau de bord</h4>
+                    <small class="text-muted">Vue d'ensemble de votre activité</small>
+                 </div>
+                  <div class=" bg-danger bg-opacity-10 p-1 d-flex align-items-center justify-content-center text-danger rounded-4 p-3 " style="height:30px; margin-left:5px;">
+                    <i class="fas fa-store text-danger fa-md "></i>
+                    <span class="text-sm text-danger ps-2"> nom de la boutique</span>
+                  </div>
                </div>
              </div>
            </div>
