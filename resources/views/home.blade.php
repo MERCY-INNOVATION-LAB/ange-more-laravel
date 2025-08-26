@@ -222,7 +222,7 @@
       <div class="col-md-6 col-lg-4">
         <div class="card h-100 shadow-sm border-0">
           <div class="card-body">
-            <div class="bg-primary bg-opacity-10 rounded d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+            <div class="bg-secondary bg-opacity-10 rounded d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
               <i class="fas fa-boxes text-primary fs-5"></i>
             </div>
             <h5 class="card-title fw-semibold">Gestion des stocks</h5>
@@ -234,7 +234,7 @@
       <div class="col-md-6 col-lg-4">
         <div class="card h-100 shadow-sm border-0">
           <div class="card-body">
-            <div class="bg-primary bg-opacity-10 rounded d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+            <div class="bg-secondary bg-opacity-10 rounded d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
               <i class="fas fa-receipt text-primary fs-5"></i>
             </div>
             <h5 class="card-title fw-semibold">Facturation automatisée</h5>
@@ -258,7 +258,7 @@
       <div class="col-md-6 col-lg-4">
         <div class="card h-100 shadow-sm border-0">
           <div class="card-body">
-            <div class="bg-primary bg-opacity-10 rounded d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+            <div class="bg-secondary bg-opacity-10 rounded d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
               <i class="fas fa-users-cog text-primary fs-5"></i>
             </div>
              <h5 class="card-title fw-semibold">Gestion du personnel</h5>
@@ -269,7 +269,7 @@
       <div class="col-md-6 col-lg-4">
         <div class="card h-100 shadow-sm border-0">
           <div class="card-body">
-            <div class="bg-primary bg-opacity-10 rounded d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+            <div class="bg-secondary bg-opacity-10 rounded d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
               <i class="fas fa-chart-line text-primary fs-5"></i>
             </div>
             <h5 class="card-title fw-semibold">Statistiques & rapports</h5>
@@ -281,7 +281,7 @@
       <div class="col-md-6 col-lg-4">
         <div class="card h-100 shadow-sm border-0">
           <div class="card-body">
-            <div class="bg-primary bg-opacity-10 rounded d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+            <div class="bg-secondary bg-opacity-10 rounded d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
               <i class="fas fa-lock text-primary fs-5"></i>
             </div>
             <h5 class="card-title fw-semibold">Accès sécurisé</h5>
@@ -397,6 +397,7 @@
 
     </div>
   </div>
+  
 </section>
 
 
@@ -456,13 +457,13 @@
   </section>
 
   <!-- Footer -->
-   <footer class="bg-primary text-white py-5">
+   <footer class="bg-primary text-white py-5 mt-3">
   <div class="container">
     <div class="row g-4">
       <div class="col-lg-5 col-md-6">
         <div class="d-flex align-items-center mb-3">
-          <img src="./images/Ezstore.png" alt="EzStore Logo" width="120" class="me-2">
-          <h4 class="mb-0 fw-bold">EzStore</h4>
+          <img src="./images/Ezstore_blanck.png" alt="EzStore Logo" width="120" class="me-2">
+          <!-- <h4 class="mb-0 fw-bold">EzStore</h4> -->
         </div>
         <p class="opacity-75">Solution de gestion de boutique pour professionnels de l'électronique.</p>
         <div class="mt-3">

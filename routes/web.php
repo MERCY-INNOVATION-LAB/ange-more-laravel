@@ -5,6 +5,7 @@ use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ShopController;
 
 Route::get('/', function () {
     return view("home");
@@ -18,9 +19,9 @@ Route::post('/register',[RegisterController::class,'register']);
 
 Route::post('/login',[RegisterController::class,'login']);
 
-Route::get('/dashboardP', function () {
-    return view('dashboardP');
-});
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
 
 Route::get('/forgot-password',function(){
     return view('password_forgot');
@@ -28,9 +29,16 @@ Route::get('/forgot-password',function(){
 
 Route::post('/forgot-password',[RegisterController::class,'forgotPassword']);
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::get('/produits',function(){
+    return view('products');
+})->name('produit');
+
+Route::get('/boutique-create',function(){
+    return view('shop_form');
+})->name('shop.create');
+
+Route::post('/boutique-create',[ShopController::class,'store'])->middleware('auth');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
