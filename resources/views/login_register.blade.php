@@ -115,19 +115,19 @@
       <form method="POST" action="/register">
         @csrf
         <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="" name="name" placeholder="Entrer votre nom" required>
+          <input type="text" class="form-control" id="name" name="name" placeholder="Entrer votre nom" required>
           <label class="form-label">Nom</label>
         </div>
         <div class="form-floating mb-3">
-          <input type="email" class="form-control" id="" name="email" placeholder="Entrer votre e-mail" required>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Entrer votre e-mail" required>
           <label class="form-label mb-3">Adresse e-mail</label>
         </div>
         <div class="form-floating mb-3">
-          <input type="password" class="form-control" id="" name="password" placeholder="Entrer votre mot de passe" required>
+          <input type="password" class="form-control" id="password" name="password" placeholder="Entrer votre mot de passe" required>
           <label for="password" class="form-label">Mot de passe</label>
         </div>
         <div class="form-floating mb-3">
-          <input type="password" class="form-control" id="" name="password" placeholder="Entrer votre mot de passe" required>
+          <input type="password" class="form-control" id="password" name="password" placeholder="Entrer votre mot de passe" required>
           <label for="password" class="form-label">Confirmer mot de passe</label>
         </div>
         <div class="d-grid">

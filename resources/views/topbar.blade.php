@@ -21,21 +21,28 @@
             </div> 
             
             <div class="d-flex align-items-center gap-2 order-2 order-md-3">
-                <div class="dropdown">
-                    <button class="btn btn-light position-relative rounded-circle p-2" title="Notifications" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-bell"></i>
-                        <span class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger">3</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end shadow">
-                        <li class="dropdown-header fw-semibold">Notifications</li>
-                        <li><a class="dropdown-item small" href="#"><i class="fas fa-exclamation-circle text-warning me-2"></i>Stock faible: AirPods</a></li>
-                        <li><a class="dropdown-item small" href="#"><i class="fas fa-shopping-cart text-success me-2"></i>Nouvelle vente confirmée</a></li>
-                        <li><a class="dropdown-item small" href="#"><i class="fas fa-user-plus text-primary me-2"></i>Nouvel utilisateur ajouté</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-center small" href="#">Voir tout</a></li>
-                    </ul>
+                <div class="custom-dropdown">
+                  <button class="btn btn-outline-danger bg-danger bg-opacity-10 d-flex align-items-center" type="button" onclick="toggleShopDropdown()" style="height:30px; margin-left:5px;">
+                    <i class="fas fa-store text-danger fa-md me-2"></i>
+                    <span class="text-sm text-danger " id="selected-shop-name">
+                      @if($shop)
+                        {{ $shop->first()->nom }}
+                      @else
+                        Aucune boutique
+                      @endif
+                    </span>
+                    <i class="fas fa-chevron-down text-danger ms-2"></i>
+                  </button>
+                  <ul class="custom-dropdown-menu" id="shop-dropdown-menu">
+                    @if($shop)
+                      <li><a class="custom-dropdown-item" href="#" onclick="selectShop('{{ $shop->id }}', '{{ $shop->nom }}')">
+                        <i class="fas fa-store text-danger me-2"></i>
+                        {{ $shop->nom }}
+                      </a></li>
+                    @endif
+                  </ul>
                 </div>
-                <div class="dropdown" style="margin-left:100px;">
+                <div class="dropdown" style="margin-left:20px;">
                     <button class="btn btn-light d-flex align-items-center rounded-pill px-2 py-1" data-bs-toggle="dropdown" aria-expanded="false">
                         <div class="user-avatar me-2">{{ strtoupper(substr(Auth::user()->name ?? 'Utilisateur', 0, 1)) }}</div>
                         <span class="d-none d-md-inline small fw-semibold">{{ Auth::user()->name ?? 'Utilisateur' }}</span>
@@ -58,6 +65,8 @@
                         </li>
                     </ul>
                 </div>
+
+                
             </div>
           
           </div>

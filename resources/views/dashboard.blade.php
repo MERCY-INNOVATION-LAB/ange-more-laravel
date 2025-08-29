@@ -127,11 +127,101 @@
       color: var(--primary-blue);
     }
 
-    .stat-card {
-      border-left: 4px solid var(--primary-blue);
-    }
+         .stat-card {
+       border-left: 4px solid var(--primary-blue);
+     }
 
-  </style>
+     .dropdown-menu {
+       display: none;
+       position: absolute;
+       z-index: 1000;
+       min-width: 10rem;
+       padding: 0.5rem 0;
+       margin: 0;
+       font-size: 1rem;
+       color: #212529;
+       text-align: left;
+       list-style: none;
+       background-color: #fff;
+       background-clip: padding-box;
+       border: 1px solid rgba(0, 0, 0, 0.15);
+       border-radius: 0.375rem;
+     }
+
+     .dropdown-menu.show {
+       display: block;
+     }
+
+     .dropdown-item {
+       display: block;
+       width: 100%;
+       padding: 0.25rem 1rem;
+       clear: both;
+       font-weight: 400;
+       color: #212529;
+       text-align: inherit;
+       text-decoration: none;
+       white-space: nowrap;
+       background-color: transparent;
+       border: 0;
+     }
+
+     .dropdown-item:hover {
+       color: #1e2125;
+       background-color: #e9ecef;
+     }
+
+     /* Styles pour le dropdown personnalisé */
+     .custom-dropdown {
+       position: relative;
+       display: inline-block;
+     }
+
+     .custom-dropdown-menu {
+       display: none;
+       position: absolute;
+       top: 100%;
+       left: 0;
+       z-index: 1000;
+       min-width: 200px;
+       padding: 0.5rem 0;
+       margin: 0;
+       font-size: 1rem;
+       color: #212529;
+       text-align: left;
+       list-style: none;
+       background-clip: padding-box;
+
+       border: 1px solid rgba(0, 0, 0, 0.15);
+       border-radius: 0.375rem;
+       box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+     }
+
+     .custom-dropdown-menu.show {
+       display: block;
+     }
+
+     .custom-dropdown-item {
+       display: block;
+       width: 100%;
+       padding: 0.5rem 1rem;
+       clear: both;
+       font-weight: 400;
+       color: #212529;
+       text-align: inherit;
+       text-decoration: none;
+       white-space: nowrap;
+       background-color: #fff;
+       border: 0;
+       cursor: pointer;
+     }
+
+     .custom-dropdown-item:hover {
+       color: #1e2125;
+       background-color: #e9ecef;
+     }
+
+   </style>
 
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -152,10 +242,17 @@
                     <h4 class="mb-0 fw-bold text-dark">Tableau de bord</h4>
                     <small class="text-muted">Vue d'ensemble de votre activité</small>
                  </div>
-                  <div class=" bg-danger bg-opacity-10 p-1 d-flex align-items-center justify-content-center text-danger rounded-4 p-3 " style="height:30px; margin-left:5px;">
-                    <i class="fas fa-store text-danger fa-md "></i>
-                    <span class="text-sm text-danger ps-2"> nom de la boutique</span>
-                  </div>
+                 <div class="flex justify-end mb-4">
+                  <form action="{{ route('dashboard') }}" method="GET" id="boutiqueFilterForm">
+                      <select name="boutique_id" id="boutiqueSelect" class="form-select border rounded px-3 py-2">
+                          @if($shop)
+                              <option value="{{ $shop->id }}" 
+                                  {{ request('shop_id') == $shop->id ? 'selected' : '' }}>
+                                  {{ $shop->nom }}
+                              </option>
+                          @endif
+                      </select>                  </form>
+              </div>
                </div>
              </div>
            </div>
@@ -381,165 +478,68 @@
     </div>
   </div>
 
+
+  
+     <script>
+     // Fonction pour sélectionner une boutique
+     function selectShop(shopId, shopName) {
+       // Mettre à jour le texte du bouton dropdown
+       const selectedShopNameElement = document.getElementById('selected-shop-name');
+       if (selectedShopNameElement) {
+         selectedShopNameElement.textContent = shopName;
+       }
+       
+       // Fermer le dropdown
+       toggleShopDropdown();
+       
+       // Stocker la boutique sélectionnée dans le localStorage (optionnel)
+       localStorage.setItem('selectedShopId', shopId);
+       localStorage.setItem('selectedShopName', shopName);
+       
+       // Ici vous pouvez ajouter du code pour recharger les données spécifiques à la boutique
+       // Par exemple, faire une requête AJAX pour mettre à jour les statistiques
+       console.log('Boutique sélectionnée:', shopName, 'ID:', shopId);
+       
+       // Optionnel : Recharger la page avec le paramètre de boutique
+       // window.location.href = window.location.pathname + '?shop_id=' + shopId;
+     }
+     
+     // Fonction pour basculer le dropdown des boutiques
+     function toggleShopDropdown() {
+       const dropdownMenu = document.getElementById('shop-dropdown-menu');
+       if (dropdownMenu) {
+         dropdownMenu.classList.toggle('show');
+         console.log('Dropdown toggled');
+       }
+     }
+     
+     // Fermer le dropdown quand on clique ailleurs
+     document.addEventListener('click', function(event) {
+       const dropdown = document.querySelector('.custom-dropdown');
+       const dropdownMenu = document.getElementById('shop-dropdown-menu');
+       
+       if (dropdown && dropdownMenu) {
+         if (!dropdown.contains(event.target)) {
+           dropdownMenu.classList.remove('show');
+         }
+       }
+     });
+     
+     // Initialiser au chargement de la page
+     document.addEventListener('DOMContentLoaded', function() {
+       console.log('DOM chargé');
+       
+       // Charger la boutique sélectionnée
+       const selectedShopName = localStorage.getItem('selectedShopName');
+       if (selectedShopName) {
+         const selectedShopNameElement = document.getElementById('selected-shop-name');
+         if (selectedShopNameElement) {
+           selectedShopNameElement.textContent = selectedShopName;
+         }
+       }
+       
+       console.log('Dropdown personnalisé initialisé');
+     });
+   </script>
+
 @endsection
-
-<script>
-// Configuration du graphique de ventes
-const ctx = document.getElementById('salesChart').getContext('2d');
-
-// Données du graphique
-const salesData = {
-  labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
-  datasets: [
-    {
-      label: 'Ventes réelles',
-      data: [45, 52, 38, 67, 89, 76, 54],
-      borderColor: '#2563eb',
-      backgroundColor: 'rgba(37, 99, 235, 0.1)',
-      borderWidth: 3,
-      fill: true,
-      tension: 0.4,
-      pointBackgroundColor: '#2563eb',
-      pointBorderColor: '#ffffff',
-      pointBorderWidth: 2,
-      pointRadius: 6,
-      pointHoverRadius: 8
-    },
-    {
-      label: 'Objectif',
-      data: [50, 50, 50, 50, 50, 50, 50],
-      borderColor: '#10b981',
-      backgroundColor: 'rgba(16, 185, 129, 0.05)',
-      borderWidth: 2,
-      borderDash: [5, 5],
-      fill: false,
-      tension: 0,
-      pointRadius: 0
-    },
-    {
-      label: 'Prévision',
-      data: [null, null, null, null, 85, 80, 60],
-      borderColor: '#f59e0b',
-      backgroundColor: 'rgba(245, 158, 11, 0.1)',
-      borderWidth: 2,
-      borderDash: [3, 3],
-      fill: false,
-      tension: 0.4,
-      pointRadius: 4,
-      pointHoverRadius: 6
-    }
-  ]
-};
-
-// Configuration du graphique
-const salesChart = new Chart(ctx, {
-  type: 'line',
-  data: salesData,
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false
-      },
-      tooltip: {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        titleColor: '#ffffff',
-        bodyColor: '#ffffff',
-        borderColor: '#2563eb',
-        borderWidth: 1,
-        cornerRadius: 8,
-        displayColors: false,
-        callbacks: {
-          title: function(context) {
-            return 'Jour: ' + context[0].label;
-          },
-          label: function(context) {
-            if (context.dataset.label === 'Ventes réelles') {
-              return 'Ventes: ' + context.parsed.y + ' unités';
-            } else if (context.dataset.label === 'Objectif') {
-              return 'Objectif: ' + context.parsed.y + ' unités';
-            } else {
-              return 'Prévision: ' + context.parsed.y + ' unités';
-            }
-          }
-        }
-      }
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false
-        },
-        ticks: {
-          color: '#6b7280',
-          font: {
-            size: 12
-          }
-        }
-      },
-      y: {
-        grid: {
-          color: 'rgba(0, 0, 0, 0.05)',
-          drawBorder: false
-        },
-        ticks: {
-          color: '#6b7280',
-          font: {
-            size: 12
-          },
-          callback: function(value) {
-            return value + 'u';
-          }
-        }
-      }
-    },
-    interaction: {
-      intersect: false,
-      mode: 'index'
-    },
-    elements: {
-      point: {
-        hoverBackgroundColor: '#2563eb'
-      }
-    }
-  }
-});
-
-// Gestion des boutons de période
-document.querySelectorAll('.btn-group .btn').forEach(button => {
-  button.addEventListener('click', function() {
-    // Retirer la classe active de tous les boutons
-    document.querySelectorAll('.btn-group .btn').forEach(btn => {
-      btn.classList.remove('active');
-    });
-    
-    // Ajouter la classe active au bouton cliqué
-    this.classList.add('active');
-    
-    // Ici vous pouvez ajouter la logique pour changer les données selon la période
-    const period = this.textContent;
-    console.log('Période sélectionnée:', period);
-    
-    // Exemple de mise à jour des données (à adapter selon vos besoins)
-    if (period === '30j') {
-      // Données pour 30 jours
-      salesChart.data.labels = ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'];
-      salesChart.data.datasets[0].data = [320, 450, 380, 520];
-      salesChart.data.datasets[1].data = [400, 400, 400, 400];
-    } else if (period === '3m') {
-      // Données pour 3 mois
-      salesChart.data.labels = ['Jan', 'Fév', 'Mar'];
-      salesChart.data.datasets[0].data = [1200, 1450, 1380];
-      salesChart.data.datasets[1].data = [1500, 1500, 1500];
-    } else {
-      // Données pour 7 jours (par défaut)
-      salesChart.data.labels = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
-      salesChart.data.datasets[0].data = [45, 52, 38, 67, 89, 76, 54];
-      salesChart.data.datasets[1].data = [50, 50, 50, 50, 50, 50, 50];
-    }
-    
-    salesChart.update();
-  });
-});
-</script>

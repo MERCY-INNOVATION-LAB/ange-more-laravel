@@ -332,7 +332,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-section="parametres">
+                        <a class="nav-link {{request()->routeIs('setting') ? 'active' : '' }}" href="{{route('setting')}}" data-section="parametres">
                             <i class="fas fa-cog"></i>
                             <span>Paramètres</span>
                         </a>
@@ -340,14 +340,18 @@
                 </ul>
             </div>
         </nav>
-        <div class="sidebar-footer">
-            <div class="sidebar-version">
-                <a class="nav-link" href="#" data-section="logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Se deconnecter</span>
-                </a>
+        
+        <form method="post" action="{{route('logout')}}">
+            @csrf
+            <div class="sidebar-footer">
+                <div class="sidebar-version">
+                    <button class="nav-link" type="submit">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Se deconnecter</span>
+                    </button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 
     <div class="overlay" id="overlay"></div>

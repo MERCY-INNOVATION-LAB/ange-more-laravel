@@ -6,12 +6,15 @@ use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SettingController;
 
 Route::get('/', function () {
     return view("home");
 })->name('home');
 
-Route::get('/login', function () {
+Route::get('/login-register', function () {
     return view('login_register');
 })->name('login-register');
 
@@ -19,19 +22,17 @@ Route::post('/register',[RegisterController::class,'register']);
 
 Route::post('/login',[RegisterController::class,'login']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::post('/logout',[RegisterController::class,'logout'])->name('logout');
 
 Route::get('/forgot-password',function(){
     return view('password_forgot');
 });
-
 Route::post('/forgot-password',[RegisterController::class,'forgotPassword']);
 
-Route::get('/produits',function(){
-    return view('products');
-})->name('produit');
+// Route::get('/dashboard', [DashboardController::class,'index'])->middleware('auth')->name('dashboard');
+
+
+Route::get('/produits', [ProductController::class,'index'])->name('produit');
 
 Route::get('/boutique-create',function(){
     return view('shop_form');
@@ -40,12 +41,31 @@ Route::get('/boutique-create',function(){
 Route::post('/boutique-create',[ShopController::class,'store'])->middleware('auth');
 
 
+// Route::middleware(['auth'])->group(function () {
+//     Route::redirect('settings', 'settings/profile');
+
+//     Route::get('settings/profile', Profile::class)->name('settings.profile');
+//     Route::get('settings/password', Password::class)->name('settings.password');
+//     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
+// });
+
+
+
 Route::middleware(['auth'])->group(function () {
-    Route::redirect('settings', 'settings/profile');
+    Route::get('/select-boutique', [ShopController::class, 'select'])->name('shop.select');
+    // Route::post('/select-boutique', [shopController::class, 'selected'])->name('shop-selected');
 
-    Route::get('settings/profile', Profile::class)->name('settings.profile');
-    Route::get('settings/password', Password::class)->name('settings.password');
-    Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
+    // Route::post('/select-boutique', [shopController::class, 'storeSelected'])->name('shop-storeSelected');
+    
+    Route::post('/shops/select/{id}', [ShopController::class, 'selected'])->name('shop-selected');
+
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+
+    Route::get('/produits', [ProductController::class,'index'])->name('produit');
+
+
+    Route::get('/parametres', [SettingController::class,'index'])->name('setting');
 });
-
-// require __DIR__.'/auth.php';
+require __DIR__.'/auth.php';
