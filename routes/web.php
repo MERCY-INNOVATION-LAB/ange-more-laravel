@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SettingController;
 
 Route::get('/', function () {
@@ -32,7 +33,10 @@ Route::post('/forgot-password',[RegisterController::class,'forgotPassword']);
 // Route::get('/dashboard', [DashboardController::class,'index'])->middleware('auth')->name('dashboard');
 
 
-Route::get('/produits', [ProductController::class,'index'])->name('produit');
+// Route::get('/produits', [ProductController::class,'index'])->name('produit');
+
+Route::view('/categorie','categorie');
+Route::post('/category', [CategoryController::class,'store']);
 
 Route::get('/boutique-create',function(){
     return view('shop_form');
@@ -52,6 +56,7 @@ Route::post('/boutique-create',[ShopController::class,'store'])->middleware('aut
 
 
 Route::middleware(['auth'])->group(function () {
+
     Route::get('/select-boutique', [ShopController::class, 'select'])->name('shop.select');
     // Route::post('/select-boutique', [shopController::class, 'selected'])->name('shop-selected');
 
@@ -64,6 +69,8 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/produits', [ProductController::class,'index'])->name('produit');
+
+    Route::post('/produit-create', [ProductController::class,'store']);
 
 
     Route::get('/parametres', [SettingController::class,'index'])->name('setting');
