@@ -298,7 +298,7 @@
                         <a class="nav-link {{request()->routeIs('produit') ? 'active' : '' }}" href="{{route('produit')}}">
                             <i class="fas fa-box"></i>
                             <span>Produits</span>
-                            <span class="nav-badge">248</span>
+                            <span class="nav-badge">{{$nbprods}}</span>
                         </a>
                     </li>
                     <li class="nav-item">

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\Shop;
 
+use App\Models\Product;
 class SettingController extends Controller
 {
     public function index( Request $request){
@@ -26,6 +27,8 @@ class SettingController extends Controller
             $shop = null;
         }
     
-        return view('settings', compact('shops', 'shop'));
+        $nbprods = Product::where('shop_id',$shop_id)->count();
+
+        return view('settings', compact('shops', 'shop','nbprods'));
     }
 }

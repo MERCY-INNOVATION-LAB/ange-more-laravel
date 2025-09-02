@@ -833,7 +833,7 @@
                                     <div class="card-body text-center">
                                         <i class="fas fa-check-circle text-success fs-2 mb-2"></i>
                                         <h6 class="text-success fw-bold mb-1">En Stock</h6>
-                                        <h4 class="text-success fw-bold mb-0">0</h4>
+                                        <h4 class="text-success fw-bold mb-0">{{$en_stock}}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -842,7 +842,7 @@
                                     <div class="card-body text-center">
                                         <i class="fas fa-exclamation-triangle text-warning fs-2 mb-2"></i>
                                         <h6 class="text-warning fw-bold mb-1">Stock Faible</h6>
-                                        <h4 class="text-warning fw-bold mb-0">0</h4>
+                                        <h4 class="text-warning fw-bold mb-0">{{$faible}}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -851,7 +851,7 @@
                                     <div class="card-body text-center">
                                         <i class="fas fa-times-circle text-danger fs-2 mb-2"></i>
                                         <h6 class="text-danger fw-bold mb-1">Rupture</h6>
-                                        <h4 class="text-danger fw-bold mb-0">0</h4>
+                                        <h4 class="text-danger fw-bold mb-0">{{$rupture}}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -899,14 +899,24 @@
                                         <td>
                                             <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2">{{$prod->category->nom}}</span>
                                         </td>
-                                        <td class="fw-bold text-success">{{$prod->prix}}</td>
+                                        <td class="fw-bold text-black">{{$prod->prix}} FCFA</td>
                                         <td>
-                                            <span class="badge bg-success bg-opacity-10 text-success px-3 py-2">{{$prod->quantite}}</span>
+                                            <span class="badge  bg-primary bg-opacity-10 text-primary px-3 py-2">{{$prod->quantite}}</span>
                                         </td>
                                         <td>
-                                            <span class="badge bg-success px-3 py-2">
-                                                <i class="fas fa-check me-1"></i>Actif
-                                            </span>
+                                            
+                                            @if($prod->quantite > $prod->quantite_min)
+
+                                                <span class="badge bg-success bg-opacity-10 text-success px-3 py-2">En stock</span>
+
+                                            @elseif($prod->quantite <= $prod->quantite_min && $prod->quantite > 0)
+
+                                                <span class="badge bg-warning bg-opacity-10 text-warning px-3 py-2">Faible</span>
+
+                                            @elseif($prod->quantite== 0)
+
+                                                <span class="badge bg-danger bg-opacity-10 text-danger px-3 py-2">En rupture</span>
+                                            @endif
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group" role="group">

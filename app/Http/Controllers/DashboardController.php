@@ -6,6 +6,7 @@ use App\Models\Shop;
 
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\Product;
 
 use Illuminate\Http\Request;
 
@@ -27,8 +28,13 @@ class DashboardController extends Controller
     }
 
     $shop = Shop::with(['products'])
-                ->findOrFail(session('shop_id'));
 
-    return view('dashboard', compact('shop'));
+      ->findOrFail(session('shop_id'));
+
+    $shop_id = $request->input('shop_id', session('shop_id'));  
+
+    $nbprods = Product::where('shop_id',$shop_id)->count();
+    
+    return view('dashboard', compact('shop','nbprods'));
    }
 }

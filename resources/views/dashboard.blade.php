@@ -1,545 +1,900 @@
-
-@extends('layouts.layout_proprio')
+@extends('layouts.layout_proprio') 
 
 @section('content')
 
-
 <style>
-    :root {
-      --primary-blue: #2563eb;
-      --primary-blue-dark: #1e40af;
-      --primary-blue-light: #3b82f6;
-      --secondary-color: #3f37c9;
-      --accent-color: #4895ef;
-      --light-color: #f8f9fa;
-      --dark-color: #212529;
-      --success-color: #4cc9f0;
-      --warning-color: #f72585;
-      --sidebar-width: 280px;
-      --header-height: 80px;
-      --card-radius: 16px;
-      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    }
+  :root {
+    --brand: #2563eb;
+    --brand-700: #1e40af;
+    --brand-500: #3b82f6;
+    --brand-400: #60a5fa;
+    --brand-100: #dbeafe;
+    --brand-50: #eff6ff;
 
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #0f172a;
+    --text-light: #475569;
+    --muted: #64748b;
+    --border: #e2e8f0;
+
+    --success: #10b981;
+    --success-light: #34d399;
+    --warning: #f59e0b;
+    --warning-light: #fbbf24;
+    --danger: #ef4444;
+    --danger-light: #f87171;
+    --info: #06b6d4;
+    --info-light: #22d3ee;
+
+    --sidebar-width: 280px;
+    --radius: 12px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+    --shadow-md: 0 6px 20px rgba(15, 23, 42, 0.10);
+    --shadow-lg: 0 15px 35px rgba(15, 23, 42, 0.12);
+    --shadow-xl: 0 20px 45px rgba(15, 23, 42, 0.18);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.15s ease-out;
+  }
+
+  body {
+    font-family: 'poppins', sans-serif;
+    letter-spacing: -0.01em;
+  }
+
+  .main-content {
+    margin-left: var(--sidebar-width);
+    padding: 20px;
+    background: linear-gradient(135deg, var(--bg) 0%, #f1f5f9 100%);
+    min-height: 100vh;
+    position: relative;
+  }
+
+  .main-content::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: var(--sidebar-width);
+    right: 0;
+    height: 150px;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.04) 0%, rgba(59, 130, 246, 0.02) 100%);
+    z-index: -1;
+  }
+
+  /* ===== Topbar Compact ===== */
+  .dashboard-topbar {
+    background: linear-gradient(135deg, var(--card) 0%, rgba(255, 255, 255, 0.95) 100%);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dashboard-topbar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--brand), var(--brand-400), var(--info));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .dashboard-topbar h4 {
+    color: var(--text);
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 2px;
+    background: linear-gradient(135deg, var(--text), var(--text-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .dashboard-topbar small {
+    color: var(--muted);
+    font-weight: 500;
+    font-size: 0.825rem;
+  }
+
+  .boutique-selector {
+    background: var(--brand-50);
+    border: 2px solid var(--brand-100);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-weight: 500;
+    color: var(--brand-700);
+    transition: var(--transition);
+    min-width: 180px;
+    font-size: 0.875rem;
+  }
+
+  .boutique-selector:focus {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    background: white;
+  }
+
+  .stats-card {
+    background: linear-gradient(135deg, var(--card) 0%, rgba(255, 255, 255, 0.9) 100%);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+  }
+
+  .stats-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--brand), transparent);
+    opacity: 0;
+    transition: var(--transition);
+  }
+
+  .stats-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(37, 99, 235, 0.2);
+  }
+
+  .stats-card:hover::before {
+    opacity: 1;
+  }
+
+  .stats-card .card-body {
+    padding: 18px;
+  }
+
+  .icon-wrapper {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+
+  .icon-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 3s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+  }
+
+  .icon-wrapper.primary {
+    background: linear-gradient(135deg, var(--brand), var(--brand-500));
+  }
+
+  .icon-wrapper.success {
+    background: linear-gradient(135deg, var(--success), var(--success-light));
+  }
+
+  .icon-wrapper.warning {
+    background: linear-gradient(135deg, var(--warning), var(--warning-light));
+  }
+
+  .icon-wrapper.danger {
+    background: linear-gradient(135deg, var(--danger), var(--danger-light));
+  }
+
+  .icon-wrapper.info {
+    background: linear-gradient(135deg, var(--info), var(--info-light));
+  }
+
+  .stats-number {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--text), var(--brand));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 3px;
+    line-height: 1.2;
+  }
+
+  .stats-label {
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+
+  .stats-description {
+    color: var(--text-light);
+    font-size: 0.8rem;
+    line-height: 1.3;
+  }
+
+  .stats-trend {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 6px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-top: 6px;
+  }
+
+  .stats-trend.positive {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+  }
+
+  .stats-trend.negative {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+  }
+
+  .chart-card {
+    background: linear-gradient(135deg, var(--card) 0%, rgba(255, 255, 255, 0.95) 100%);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    margin-bottom: 16px;
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+  }
+
+  .chart-card:hover {
+    box-shadow: var(--shadow-lg);
+  }
+
+  .chart-header {
+    padding: 18px 18px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  .chart-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+
+  .chart-subtitle {
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+
+  .period-buttons {
+    display: flex;
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 3px;
+    gap: 3px;
+  }
+
+  .period-btn {
+    background: transparent;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 7px;
+    font-weight: 500;
+    color: var(--muted);
+    transition: var(--transition-fast);
+    cursor: pointer;
+    font-size: 0.8rem;
+  }
+
+  .period-btn.active,
+  .period-btn:hover {
+    background: var(--brand);
+    color: white;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+  }
+
+  .activity-card {
+    background: linear-gradient(135deg, var(--card) 0%, rgba(255, 255, 255, 0.95) 100%);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+  }
+
+  .activity-header {
+    background: linear-gradient(135deg, var(--brand), var(--brand-500));
+    padding: 14px 18px;
+    color: white;
+    position: relative;
+  }
+
+  .activity-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  }
+
+  .activity-item {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    transition: var(--transition);
+    position: relative;
+  }
+
+  .activity-item:last-child {
+    border-bottom: none;
+  }
+
+  .activity-item:hover {
+    background: var(--brand-50);
+    transform: translateX(3px);
+  }
+
+  .activity-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .activity-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .activity-item:hover .activity-icon::before {
+    left: 100%;
+  }
+
+  .activity-content h6 {
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+    font-size: 0.875rem;
+  }
+
+  .activity-content p {
+    color: var(--text-light);
+    margin-bottom: 3px;
+    font-size: 0.8rem;
+  }
+
+  .activity-time {
+    color: var(--muted);
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+
+  /* ===== Table Compacte ===== */
+  .table-card {
+    background: linear-gradient(135deg, var(--card) 0%, rgba(255, 255, 255, 0.95) 100%);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+  }
+
+  .table-header {
+    padding: 18px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, var(--bg), rgba(248, 250, 252, 0.5));
+  }
+
+  .table-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+
+  .table-subtitle {
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+
+  .premium-table {
+    margin: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .premium-table thead th {
+    background: linear-gradient(135deg, var(--bg), rgba(248, 250, 252, 0.8));
+    padding: 12px 18px;
+    font-weight: 600;
+    color: var(--text);
+    border-bottom: 2px solid var(--border);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .premium-table tbody tr {
+    transition: var(--transition);
+  }
+
+  .premium-table tbody tr:hover {
+    background: linear-gradient(135deg, var(--brand-50), rgba(239, 246, 255, 0.5));
+    transform: scale(1.01);
+  }
+
+  .premium-table tbody td {
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 500;
+    color: var(--text-light);
+    font-size: 0.875rem;
+  }
+
+  .action-btn {
+    background: var(--brand-50);
+    color: var(--brand);
+    border: 2px solid var(--brand-100);
+    border-radius: 8px;
+    padding: 6px 10px;
+    transition: var(--transition);
+    cursor: pointer;
+    font-size: 0.8rem;
+  }
+
+  .action-btn:hover {
+    background: var(--brand);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.3);
+  }
+
+  .btn-premium {
+    background: linear-gradient(135deg, var(--brand), var(--brand-500));
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 10px;
+    transition: var(--transition);
+    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
+    position: relative;
+    overflow: hidden;
+    font-size: 0.875rem;
+  }
+
+  .btn-premium::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .btn-premium:hover::before {
+    left: 100%;
+  }
+
+  .btn-premium:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+  }
+
+  .btn-outline-premium {
+    background: transparent;
+    border: 2px solid var(--brand);
+    color: var(--brand);
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 10px;
+    transition: var(--transition);
+    font-size: 0.8rem;
+  }
+
+  .btn-outline-premium:hover {
+    background: var(--brand);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  .animate-delay-1 { animation-delay: 0.1s; }
+  .animate-delay-2 { animation-delay: 0.2s; }
+  .animate-delay-3 { animation-delay: 0.3s; }
+  .animate-delay-4 { animation-delay: 0.4s; }
+
+  @media (max-width: 768px) {
     .main-content {
-      margin-left: var(--sidebar-width);
-      padding: 5px;
-      transition: all 0.3s ease;
-    }
-    .dashboard-header {
-      background: white;
-      border-radius: var(--card-radius);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-      padding: 15px 25px;
-      margin-bottom: 25px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .welcome-text {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--primary-color);
-      margin: 0;
-    }
-
-    .welcome-text span {
-      color: var(--secondary-color);
-    }
-
-    .search-container {
-      position: relative;
-      max-width: 400px;
-      width: 100%;
-    }
-
-    .search-input {
-      border-radius: 50px;
-      border: 1px solid #e0e0e0;
-      height: 45px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-      transition: var(--transition);
-    }
-
-    .search-input:focus {
-      border-color: var(--accent-color);
-      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 10px;
-      
-      top: 50%; 
-      transform: translateY(-50%);
-      color: #a0a0a0;
-    }
-
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .user-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: var(--accent-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: bold;
-    }
-
-    .first-row{
-      height:150px;
-      padding-right:2px;
-    }
-
-
-    .navbar-custom {
-      background-color: white;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .card {
-      border: none;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      width:320px;
+      margin-left: 0;
+      padding: 14px;
     }
     
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    .dashboard-topbar {
+      padding: 14px 16px;
+      text-align: center;
     }
-
-    .card-header-custom{
-      background:var(--primary-blue);
+    
+    .stats-card .card-body {
+      padding: 16px;
     }
-    .card-icon {
+    
+    .stats-number {
       font-size: 1.5rem;
-      color: var(--primary-blue);
     }
 
-         .stat-card {
-       border-left: 4px solid var(--primary-blue);
-     }
+    .icon-wrapper {
+      width: 40px;
+      height: 40px;
+    }
+  }
+</style>
 
-     .dropdown-menu {
-       display: none;
-       position: absolute;
-       z-index: 1000;
-       min-width: 10rem;
-       padding: 0.5rem 0;
-       margin: 0;
-       font-size: 1rem;
-       color: #212529;
-       text-align: left;
-       list-style: none;
-       background-color: #fff;
-       background-clip: padding-box;
-       border: 1px solid rgba(0, 0, 0, 0.15);
-       border-radius: 0.375rem;
-     }
+<!-- Topbar Compact -->
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="dashboard-topbar d-flex justify-content-between align-items-center animate-fade-in-up">
+      <div>
+        <h4>✨ Tableau de bord</h4>
+        <small>Vue d'ensemble de votre activité en temps réel</small>
+      </div>
+      <div>
+        <form action="{{ route('dashboard') }}" method="GET" id="boutiqueFilterForm">
+          <select name="boutique_id" id="boutiqueSelect" class="boutique-selector">
+            @if($shop)
+              <option value="{{ $shop->id }}" 
+                  {{ request('shop_id') == $shop->id ? 'selected' : '' }}>
+                  🏪 {{ $shop->nom }}
+              </option>
+            @endif
+          </select>
+        </form>
+      </div>
+    </div>
 
-     .dropdown-menu.show {
-       display: block;
-     }
-
-     .dropdown-item {
-       display: block;
-       width: 100%;
-       padding: 0.25rem 1rem;
-       clear: both;
-       font-weight: 400;
-       color: #212529;
-       text-align: inherit;
-       text-decoration: none;
-       white-space: nowrap;
-       background-color: transparent;
-       border: 0;
-     }
-
-     .dropdown-item:hover {
-       color: #1e2125;
-       background-color: #e9ecef;
-     }
-
-     /* Styles pour le dropdown personnalisé */
-     .custom-dropdown {
-       position: relative;
-       display: inline-block;
-     }
-
-     .custom-dropdown-menu {
-       display: none;
-       position: absolute;
-       top: 100%;
-       left: 0;
-       z-index: 1000;
-       min-width: 200px;
-       padding: 0.5rem 0;
-       margin: 0;
-       font-size: 1rem;
-       color: #212529;
-       text-align: left;
-       list-style: none;
-       background-clip: padding-box;
-
-       border: 1px solid rgba(0, 0, 0, 0.15);
-       border-radius: 0.375rem;
-       box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-     }
-
-     .custom-dropdown-menu.show {
-       display: block;
-     }
-
-     .custom-dropdown-item {
-       display: block;
-       width: 100%;
-       padding: 0.5rem 1rem;
-       clear: both;
-       font-weight: 400;
-       color: #212529;
-       text-align: inherit;
-       text-decoration: none;
-       white-space: nowrap;
-       background-color: #fff;
-       border: 0;
-       cursor: pointer;
-     }
-
-     .custom-dropdown-item:hover {
-       color: #1e2125;
-       background-color: #e9ecef;
-     }
-
-   </style>
-
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <div class="main-content">
-    <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-4 col-lg-4 mb-3">
+        <div class="stats-card animate-fade-in-up animate-delay-1">
+          <div class="card-body  d-flex justify-content-between align-items-center">
+           <div class="more">
+            <div class="stats-label">Ventes ce mois</div>
+              <div class="stats-number">1,247</div>
+              <div class="stats-description">Excellent performance ce mois-ci</div>
+              <div class="stats-trend positive">
+                <i class="fas fa-arrow-up me-1"></i>
+                +12.5%
+              </div>
+            </div>
+            <div class="icon-wrapper bg-primary bg-opacity-10">
+              <i class="fas fa-shopping-cart text-primary" style="font-size: 1.2rem;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
       
-             <!-- Topbar améliorée -->
-       <div class="dashboard-topbar bg-white rounded-3 shadow-sm p-3 mb-4">
-         <div class="row align-items-center">
-           <div class="col-md-6">
-             <div class="d-flex align-items-center">
-               <div class="me-3">
-                 <i class="fas fa-chart-line text-primary fs-4"></i>
-               </div>
-               <div class="d-flex justify-content-between align-items-center">
-                 <div class="more">
-                    <h4 class="mb-0 fw-bold text-dark">Tableau de bord</h4>
-                    <small class="text-muted">Vue d'ensemble de votre activité</small>
-                 </div>
-                 <div class="flex justify-end mb-4">
-                  <form action="{{ route('dashboard') }}" method="GET" id="boutiqueFilterForm">
-                      <select name="boutique_id" id="boutiqueSelect" class="form-select border rounded px-3 py-2">
-                          @if($shop)
-                              <option value="{{ $shop->id }}" 
-                                  {{ request('shop_id') == $shop->id ? 'selected' : '' }}>
-                                  {{ $shop->nom }}
-                              </option>
-                          @endif
-                      </select>                  </form>
+      <div class="col-md-4 col-lg-4 mb-3">
+        <div class="stats-card animate-fade-in-up animate-delay-1">
+          <div class="card-body  d-flex justify-content-between align-items-center">
+           <div class="more">
+            <div class="stats-label">Produits en stock</div>
+              <div class="stats-number">1,247</div>
+              <div class="stats-description">Excellent performance ce mois-ci</div>
+              <div class="stats-trend positive">
+                <i class="fas fa-arrow-up me-1"></i>
+                +12.5%
               </div>
-               </div>
-             </div>
-           </div>
-           <div class="col-md-6">
-             <div class="d-flex justify-content-end align-items-center gap-3">
-               <div class="d-flex align-items-center bg-light rounded-pill px-3 py-2">
-                 <i class="fas fa-calendar-alt text-primary me-2"></i>
-                 <span class="text-muted small">Aujourd'hui: {{ date('d/m/Y') }}</span>
-               </div>
-               <div class="d-flex align-items-center bg-light rounded-pill px-3 py-2">
-                 <i class="fas fa-clock text-primary me-2"></i>
-                 <span class="text-muted small" id="current-time"></span>
-               </div>
-               <div class="dropdown">
-                 <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                   <i class="fas fa-filter me-1"></i>Filtrer
-                 </button>
-                 <ul class="dropdown-menu">
-                   <li><a class="dropdown-item" href="#"><i class="fas fa-calendar-day me-2"></i>Aujourd'hui</a></li>
-                   <li><a class="dropdown-item" href="#"><i class="fas fa-calendar-week me-2"></i>Cette semaine</a></li>
-                   <li><a class="dropdown-item" href="#"><i class="fas fa-calendar-alt me-2"></i>Ce mois</a></li>
-                 </ul>
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
-      <div class="row mt-3 flex justify-content-between">
-        <div class="col-md-4 col-lg-4">
-            <div class="card  text-black border-left border-3 border-green shadow-sm border-0  mb-3 p-2">
-                <div class="d-flex " >
-                  <div class="col-2 bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center " style="width: 35px; height: 35px;">
-                    <i class="fas fa-boxes text-primary fa-sm"></i>
-                  </div>
-                  <span><h6 class="ps-1 text-muted mt-2 " style="font-size:0.9rem;">Nombre de ventes</h6></span>
-                </div>
-                <div class="d-flex justify-content-between align-items-center" >
-                  <span><h6 class="ps-1 fw-bold fs-3 mt-2">+98  <span class="text-primary fw-light fs-6 ">ventes<span> </h6></span>
-                  <div class=" bg-primary bg-opacity-10 p-1  d-flex align-items-center justify-content-center text-pimary rounded-4 ">
-                    <i class="fas fa-boxes text-primary fa-sm"></i>
-                    <span class="text-sm text-primary">+</span>
-                    <span class="text-sm text-primary">%27</span>
-                  </div>
-                </div>
-                <div>
-                  <p class="text-muted" style="font-size:0.8rem;" >vous avez <span class="text-primary">98 ventes</span> sur vos produit ce mois ci</p>
-                </div>
+            </div>
+            <div class="icon-wrapper bg-success bg-opacity-10">
+              <i class="fas fa-boxes text-success" style="font-size: 1.2rem;"></i>
             </div>
           </div>
-          <div class="col-md-4 col-lg-4">
-            <div class="card  text-black  shadow-sm border-0  mb-3 p-2">
-                  <div class="d-flex " >
-                    <div class="col-2 bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center " style="width: 35px; height: 35px;">
-                      <i class="fas fa-boxes text-success fa-sm"></i>
-                    </div>
-                    <span><h6 class="ps-1 text-muted mt-2 " style="font-size:0.9rem;">Nombre de ventes</h6></span>
-                  </div>
-                  <div class="d-flex justify-content-between align-items-center" >
-                    <span><h6 class="ps-1 fw-bold fs-3 mt-2">+98  <span class="text-success fw-light fs-6 ">ventes<span> </h6></span>
-                    <div class=" bg-success bg-opacity-10 p-1  d-flex align-items-center justify-content-center text-success rounded-4 ">
-                      <i class="fas fa-boxes text-success fa-sm"></i>
-                      <span class="text-sm text-success">+</span>
-                      <span class="text-sm text-success">%27</span>
-                    </div>
-                  </div>
-                  <div>
-                    <p class="text-muted" style="font-size:0.8rem;" >vous avez <span class="text-success">98 ventes</span> sur vos produit ce mois ci</p>
-                  </div>
-              </div>
-          </div>
-        <div class="col-md-4 col-lg-4">
-          <div class="card  text-black border-left border-3 border-green shadow-sm border-0  mb-3 p-2">
-                <div class="d-flex " >
-                  <div class="col-2 bg-danger bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center " style="width: 35px; height: 35px;">
-                    <i class="fas fa-boxes text-danger fa-sm"></i>
-                  </div>
-                  <span><h6 class="ps-1 text-muted mt-2 " style="font-size:0.9rem;">Nombre de ventes</h6></span>
-                </div>
-                <div class="d-flex justify-content-between align-items-center" >
-                  <span><h6 class="ps-1 fw-bold fs-3 mt-2">+98  <span class="text-danger fw-light fs-6 ">ventes<span> </h6></span>
-                  <div class=" bg-danger bg-opacity-10 p-1  d-flex align-items-center justify-content-center text-danger rounded-4 ">
-                    <i class="fas fa-boxes text-danger fa-sm"></i>
-                    <span class="text-sm text-danger">+</span>
-                    <span class="text-sm text-danger">%27</span>
-                  </div>
-                </div>
-                <div>
-                  <p class="text-muted" style="font-size:0.8rem;" >vous avez <span class="text-danger">98 ventes</span> sur vos produit ce mois ci</p>
-                </div>
-              </div>
-          </div>
+        </div>
       </div>
 
-      <div class="row flex justify-content-between">
-        <div class="col-7"> 
-          <div class="card text-black shadow-sm border-0 mb-3 m-0" style="height:450px;width:660px; ">
-            <div class="card-body">
-              <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center">
-                  <i class="fas fa-chart-bar text-primary fs-5 me-2"></i>
-                  <h5 class="card-title fw-semibold m-0">Évolution des ventes</h5>
-                </div>
-                <div class="btn-group btn-group-sm" role="group">
-                  <button type="button" class="btn btn-outline-primary active">7j</button>
-                  <button type="button" class="btn btn-outline-primary">30j</button>
-                  <button type="button" class="btn btn-outline-primary">3m</button>
-                </div>
+      <div class="col-md-4 col-lg-4 mb-3">
+        <div class="stats-card animate-fade-in-up animate-delay-1">
+          <div class="card-body  d-flex justify-content-between align-items-center">
+           <div class="more">
+            <div class="stats-label">Chiffre d'affaires</div>
+              <div class="stats-number">1,2M FCFA</div>
+              <div class="stats-description">Excellent performance ce mois-ci</div>
+              <div class="stats-trend positive">
+                <i class="fas fa-arrow-up me-1"></i>
+                +12.5%
               </div>
-              
-              <!-- Graphique de ventes -->
-              <div class="sales-chart-container" style="height: 250px; position: relative;">
-                <canvas id="salesChart" width="400" height="200"></canvas>
-                
-                <!-- Statistiques en overlay -->
-                <div class="position-absolute top-0 end-0 p-3">
-                  <div class="text-end">
-                    <div class="d-flex align-items-center justify-content-end mb-1">
-                      <span class="badge bg-success me-2">+12%</span>
-                      <small class="text-muted">vs mois dernier</small>
-                    </div>
-                    <h6 class="mb-0 text-primary">Total: 1,247 ventes</h6>
-                  </div>
-                </div>
+            </div>
+            <div class="icon-wrapper bg-warning bg-opacity-10">
+              <i class="fas fa-shopping-cart text-warning" style="font-size: 1.2rem;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8 mb-3">
+        <div class="chart-card animate-fade-in-up animate-delay-4">
+          <div class="chart-header">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <h5 class="chart-title">📈 Évolution des ventes</h5>
+                <p class="chart-subtitle">Analyse des performances sur la période sélectionnée</p>
               </div>
-              
-              <!-- Légende des données -->
-              <div class="row mt-3">
-                <div class="col-4 text-center">
-                  <div class="d-flex align-items-center justify-content-center">
-                    <div class="bg-primary rounded-circle me-2" style="width: 8px; height: 8px;"></div>
-                    <small class="text-muted">Ventes</small>
-                  </div>
-                </div>
-                <div class="col-4 text-center">
-                  <div class="d-flex align-items-center justify-content-center">
-                    <div class="bg-success rounded-circle me-2" style="width: 8px; height: 8px;"></div>
-                    <small class="text-muted">Objectif</small>
-                  </div>
-                </div>
-                <div class="col-4 text-center">
-                  <div class="d-flex align-items-center justify-content-center">
-                    <div class="bg-warning rounded-circle me-2" style="width: 8px; height: 8px;"></div>
-                    <small class="text-muted">Prévision</small>
-                  </div>
-                </div>
+              <div class="period-buttons">
+                <button class="period-btn active">7j</button>
+                <button class="period-btn">30j</button>
+                <button class="period-btn">3m</button>
               </div>
             </div>
           </div>
-        </div>  
-                 <div class="col-4">
-           <div class="card shadow">
-
-               <div class="py-3 card-header-custom d-flex justify-content-center align-items-center">
-                 <div class="d-flex align-items-center gap-3">
-                   <i class="fas fa-chart-line" style="font-size: 1.5rem; color: white;"></i>
-                   <h5 class="mb-0 text-white">Activité Récente</h5>
-                 </div>
-               </div>
-
-               <div class="card-body p-3">
-                 
-                 <!-- Activité 1 -->
-                 <div class="d-flex align-items-center mb-3 p-2 rounded" style="background-color: #f8f9fa;">
-                   <div class="bg-success rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 35px; height: 35px;">
-                     <i class="fas fa-shopping-cart text-white fa-sm"></i>
-                   </div>
-                   <div class="flex-grow-1">
-                     <p class="mb-0 fw-semibold" style="font-size: 0.85rem;">Nouvelle vente</p>
-                     <p class="mb-0 text-muted" style="font-size: 0.75rem;">Produit "iPhone 15" vendu</p>
-                     <small class="text-muted">Il y a 5 min</small>
-                   </div>
-                 </div>
-
-
-                 <!-- Bouton Voir tout -->
-                 <div class="text-center mt-3">
-                   <button class="btn btn-outline-primary btn-sm">
-                     <i class="fas fa-eye me-1"></i>Voir toutes les activités
-                   </button>
-                 </div>
-                       
-               </div>
-           </div>
-           </div>
+          <div class="card-body" style="padding: 16px;">
+            <canvas id="salesChart" style="height: 250px;"></canvas>
+          </div>
+        </div>
       </div>
 
-      <div class="row flex column bg-white" style="border-radius:5px;">
-
-        <!-- <div class="col-md">
-          <div class="p-2" style="margin-left:-1px;">
-
+      <div class="col-md-4 mb-3">
+        <div class="activity-card animate-fade-in-up animate-delay-4">
+          <div class="activity-header">
+            <h5 class="text-white mb-0" style="font-size: 1rem;">
+              <i class="fas fa-bolt me-2"></i>Activité Récente
+            </h5>
           </div>
+          <div class="card-body p-0">
+            <div class="activity-item">
+              <div class="d-flex align-items-center">
+                <div class="activity-icon success">
+                  <i class="fas fa-shopping-cart text-white" style="font-size: 0.9rem;"></i>
+                </div>
+                <div class="activity-content flex-grow-1">
+                  <h6>💰 Nouvelle vente</h6>
+                  <p>iPhone 15 Pro vendu à Jean Dupont</p>
+                  <small class="activity-time">Il y a 5 minutes</small>
+                </div>
+              </div>
+            </div>
 
-        </div> -->
-        <div class="col-md flex">
-          <div class="title">
-            <i class="fas fa-exclamation-triangle text-warning" style="font-size: 2rem;"></i>
+            <div class="activity-item">
+              <div class="d-flex align-items-center">
+                <div class="activity-icon info">
+                  <i class="fas fa-user-plus text-white" style="font-size: 0.9rem;"></i>
+                </div>
+                <div class="activity-content flex-grow-1">
+                  <h6>👤 Nouveau client</h6>
+                  <p>Marie Martin s'est inscrite</p>
+                  <small class="activity-time">Il y a 12 minutes</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="activity-item">
+              <div class="d-flex align-items-center">
+                <div class="activity-icon warning">
+                  <i class="fas fa-exclamation-triangle text-white" style="font-size: 0.9rem;"></i>
+                </div>
+                <div class="activity-content flex-grow-1">
+                  <h6>⚠️ Stock faible</h6>
+                  <p>MacBook Air - Plus que 3 unités</p>
+                  <small class="activity-time">Il y a 1 heure</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center p-3">
+              <button class="btn-outline-premium">
+                <i class="fas fa-eye me-1"></i>Voir tout
+              </button>
+            </div>
           </div>
+        </div>
+      </div>
+    </div>
 
-          <h4 class="mt-2 mb-3 ps-2 border-start border-4 border-primary">Alertes stock</h4>
-            <table class="table table-hover bordered ">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-card animate-fade-in-up animate-delay-4">
+          <div class="table-header">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h5 class="table-title "> <p class=" ps-2 border-3 border-start border-primary">Alerte Stock</p></h5>
+                <p class="table-subtitle">Produits nécessitant un réapprovisionnement</p>
+              </div>
+              <button class="btn-premium" href="/produits">
+                <i class="fas fa-plus me-1"></i>Réapprovisionner
+              </button>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <table class="premium-table w-100">
               <thead>
-
-                <th>Id</th>
-                <th>Nom du produit</th>
-                <th>Categorie</th>
-                <th>Prix</th>
-                <th>Stock</th>
-                <th>Action</th>
+                <tr>
+                  <th>ID</th>
+                  <th>Nom du produit</th>
+                  <th>Catégorie</th>
+                  <th>Prix unitaire</th>
+                  <th>Stock restant</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
               </thead>
               <tbody>
-                <td>bangue</td>
-                <td>more</td>
-                <td>ange</td>
-                <td>200000000 Fcfa</td>
-                <td>1</td>
-                <td><i class="fas fa-eye" style="font-size: 2rem; color: green;"></i></td>
-
+                <tr>
+                  <td><span class="fw-bold text-primary">#001</span></td>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div class="icon-wrapper bg-danger bg-opacity-10 me-2" style="width: 32px; height: 32px;">
+                        <i class="fas fa-mobile-alt text-danger" style="font-size: 0.8rem;"></i>
+                      </div>
+                      <div>
+                        <strong style="font-size: 0.875rem;">iPhone 15 Pro</strong>
+                        <br><small class="text-muted" style="font-size: 0.75rem;">Référence: IP15P-128</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="badge bg-primary bg-opacity-10 text-primary" style="font-size: 0.7rem;"> Smartphones</span></td>
+                  <td><strong>450000 FCFA</strong></td>
+                  <td>
+                    <span class="badge bg-danger bg-opacity-10 text-danger" style="font-size: 0.7rem;"> 3 unités</span>
+                  </td>
+                  <td>
+                    <span class="badge bg-success bg-opacity-10 text-success" style="font-size: 0.7rem;">Stock critique</span>
+                  </td>
+                  <td>
+                    <button class="action-btn">
+                      <i class="fas fa-eye me-1"></i>Voir
+                    </button>
+                  </td>
+                </tr>
               </tbody>
             </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
 
-  
-     <script>
-     // Fonction pour sélectionner une boutique
-     function selectShop(shopId, shopName) {
-       // Mettre à jour le texte du bouton dropdown
-       const selectedShopNameElement = document.getElementById('selected-shop-name');
-       if (selectedShopNameElement) {
-         selectedShopNameElement.textContent = shopName;
-       }
-       
-       // Fermer le dropdown
-       toggleShopDropdown();
-       
-       // Stocker la boutique sélectionnée dans le localStorage (optionnel)
-       localStorage.setItem('selectedShopId', shopId);
-       localStorage.setItem('selectedShopName', shopName);
-       
-       // Ici vous pouvez ajouter du code pour recharger les données spécifiques à la boutique
-       // Par exemple, faire une requête AJAX pour mettre à jour les statistiques
-       console.log('Boutique sélectionnée:', shopName, 'ID:', shopId);
-       
-       // Optionnel : Recharger la page avec le paramètre de boutique
-       // window.location.href = window.location.pathname + '?shop_id=' + shopId;
-     }
-     
-     // Fonction pour basculer le dropdown des boutiques
-     function toggleShopDropdown() {
-       const dropdownMenu = document.getElementById('shop-dropdown-menu');
-       if (dropdownMenu) {
-         dropdownMenu.classList.toggle('show');
-         console.log('Dropdown toggled');
-       }
-     }
-     
-     // Fermer le dropdown quand on clique ailleurs
-     document.addEventListener('click', function(event) {
-       const dropdown = document.querySelector('.custom-dropdown');
-       const dropdownMenu = document.getElementById('shop-dropdown-menu');
-       
-       if (dropdown && dropdownMenu) {
-         if (!dropdown.contains(event.target)) {
-           dropdownMenu.classList.remove('show');
-         }
-       }
-     });
-     
-     // Initialiser au chargement de la page
-     document.addEventListener('DOMContentLoaded', function() {
-       console.log('DOM chargé');
-       
-       // Charger la boutique sélectionnée
-       const selectedShopName = localStorage.getItem('selectedShopName');
-       if (selectedShopName) {
-         const selectedShopNameElement = document.getElementById('selected-shop-name');
-         if (selectedShopNameElement) {
-           selectedShopNameElement.textContent = selectedShopName;
-         }
-       }
-       
-       console.log('Dropdown personnalisé initialisé');
-     });
-   </script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    
+    const gradient = ctx.createLinearGradient(0, 0, 0, 250);
+    gradient.addColorStop(0, 'rgba(37, 99, 235, 0.3)');
+    gradient.addColorStop(1, 'rgba(37, 99, 235, 0.05)');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+            datasets: [{
+                label: 'Ventes (€)',
+                data: [1200, 1900, 1500, 2200, 2800, 2100, 2500],
+                borderColor: '#2563eb',
+                backgroundColor: gradient,
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: '#2563eb',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointRadius: 4,
+                pointHoverRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return value + '€';
+                        }
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            },
+            elements: {
+                point: {
+                    hoverBackgroundColor: '#2563eb'
+                }
+            }
+        }
+    });
+
+    // Animation des cartes au chargement
+    const cards = document.querySelectorAll('.stats-card, .chart-card, .activity-card, .table-card');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(15px)';
+        
+        setTimeout(() => {
+            card.style.transition = 'all 0.5s ease-out';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 80);
+    });
+
+    // Gestion des boutons de période
+    const periodBtns = document.querySelectorAll('.period-btn');
+    periodBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            periodBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+});
+</script>
 
 @endsection

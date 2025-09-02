@@ -33,7 +33,13 @@ class ProductController extends Controller
 
         $nbprods = Product::where('shop_id',$shop_id)->count();
 
-        return view('products', compact('shops', 'shop','cats','prods','nbprods'));
+        $en_stock = $prods->filter(fn($prod) => $prod->quantite > $prod->quantite_min)->count();
+
+        $faible = $prods->filter(fn($prod) => $prod->quantite <= $prod->quantite_min && $prod->quantite > 0)->count();
+
+        $rupture = $prods->where('quantite', 0)->count();
+
+        return view('products', compact('shops', 'shop','cats','prods','nbprods', 'en_stock','faible','rupture'));
     }
 
 
