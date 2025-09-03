@@ -62,7 +62,6 @@
     z-index: -1;
   }
 
-  /* ===== Topbar Compact ===== */
   .dashboard-topbar {
     background: linear-gradient(135deg, var(--card) 0%, rgba(255, 255, 255, 0.95) 100%);
     border-radius: var(--radius-lg);
@@ -103,6 +102,35 @@
     font-size: 0.825rem;
   }
 
+  
+
+    .online-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    background: #10b981;
+    border: 2px solid white;
+    border-radius: 50%;
+  }
+
+    .user-avatar-small {
+    width: 36px;
+    height: 36px;
+  }
+
+    .dropdown-toggle::after {
+        transition: transform 0.3s ease;
+    }
+
+    .dropdown-toggle[aria-expanded="true"]::after {
+        transform: rotate(180deg);
+    }
+
+  .more-icon{
+    color: var(--brand-700);
+  }
   .boutique-selector {
     background: var(--brand-50);
     border: 2px solid var(--brand-100);
@@ -582,28 +610,96 @@
   }
 </style>
 
-<!-- Topbar Compact -->
 <div class="main-content">
   <div class="container-fluid">
     <div class="dashboard-topbar d-flex justify-content-between align-items-center animate-fade-in-up">
       <div>
-        <h4>✨ Tableau de bord</h4>
+        <h4> Tableau de bord</h4>
         <small>Vue d'ensemble de votre activité en temps réel</small>
       </div>
-      <div>
-        <form action="{{ route('dashboard') }}" method="GET" id="boutiqueFilterForm">
-          <select name="boutique_id" id="boutiqueSelect" class="boutique-selector">
+      <div class="position-relative">
+        <i class="fas fa-store more-icon position-absolute" style="left: 12px; top: 50%; transform: translateY(-50%); z-index: 10;"></i>
+        <form action="{{ route('dashboard') }}" method="GET" id="boutiqueFilterForm">    
+          <select name="boutique_id" id="boutiqueSelect" class="boutique-selector ps-4">
             @if($shop)
               <option value="{{ $shop->id }}" 
                   {{ request('shop_id') == $shop->id ? 'selected' : '' }}>
-                  🏪 {{ $shop->nom }}
+                  <i class="fas fa-store text-primary fs-4"></i>{{ $shop->nom }}
               </option>
             @endif
           </select>
         </form>
       </div>
-    </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="dropdown">
+            <button class=" boutique-selector dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="user-avatar me-2 align-items-center">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="d-none d-md-block text-start me-2">
+                    <div class="fw-semibold small">{{ Auth::user()->name ?? 'Utilisateur' }}</div>
+                    <div class="text-muted" style="font-size: 0.75rem;">Administrateur</div>
+                </div>
+            </button>
+            
+            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0" style="min-width: 280px;">
+                <li class="bg-primary text-white p-3 rounded-top">
+                    <div class="d-flex align-items-center">
+                        <div class="user-avatar-small me-3">
+                          <i class="fas fa-user"></i>
+                        <div>
+                            <div class="fw-semibold">{{ Auth::user()->name ?? 'Utilisateur' }}</div>
+                            <small class="opacity-75">{{ Auth::user()->email ?? 'email@example.com' }}</small>
+                        </div>
+                    </div>
+                </li>
 
+                <li><hr class="dropdown-divider my-2"></li>
+                
+                <li>
+                    <a class="dropdown-item py-2" href="#">
+                        <i class="fas fa-envelope me-2 text-primary"></i>
+                        {{ Auth::user()->email ?? 'email@example.com' }}
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="dropdown-item py-2" href="#">
+                        <i class="fas fa-user me-2 text-info"></i>
+                        Mon Profil
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="dropdown-item py-2" href="#">
+                        <i class="fas fa-cog me-2 text-warning"></i>
+                        Paramètres
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="dropdown-item py-2" href="#">
+                        <i class="fas fa-bell me-2 text-secondary"></i>
+                        Notifications
+                        <span class="badge bg-danger ms-auto">3</span>
+                    </a>
+                </li>
+
+                <li><hr class="dropdown-divider my-2"></li>
+                
+                <li>
+                    <a class="dropdown-item py-2 text-danger" 
+                      href="{{ route('logout') }}" 
+                      onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="fas fa-sign-out-alt me-2"></i>
+                        Se déconnecter
+                    </a>
+                </li>
+            </ul>
+        </div>
+      </div>
+      </div>
+    </div>
     <div class="row">
       <div class="col-md-4 col-lg-4 mb-3">
         <div class="stats-card animate-fade-in-up animate-delay-1">
