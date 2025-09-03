@@ -150,6 +150,18 @@
     background: white;
   }
 
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-light));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    margin-right: 8px;
+  }
   .stats-card {
     background: linear-gradient(135deg, var(--card) 0%, rgba(255, 255, 255, 0.9) 100%);
     border-radius: var(--radius-lg);
@@ -634,7 +646,7 @@
         <div class="dropdown">
             <button class=" boutique-selector dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="user-avatar me-2 align-items-center">
-                    <i class="fas fa-user"></i>
+                  {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
                 </div>
                 <div class="d-none d-md-block text-start me-2">
                     <div class="fw-semibold small">{{ Auth::user()->name ?? 'Utilisateur' }}</div>

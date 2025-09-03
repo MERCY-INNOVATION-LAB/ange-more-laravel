@@ -9,6 +9,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SettingController;
 
 Route::get('/', function () {
@@ -71,6 +72,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/produits', [ProductController::class,'index'])->name('produit');
 
     Route::post('/produit-create', [ProductController::class,'store']);
+
+    Route::get('/ventes',[SaleController::class,'index'])->name('vente');
+
 
 
     Route::get('/parametres', [SettingController::class,'index'])->name('setting');

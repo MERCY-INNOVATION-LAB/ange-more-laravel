@@ -302,7 +302,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-section="ventes">
+                        <a class="nav-link {{request()->routeIs('vente') ? 'active' : '' }}" href="{{route('vente')}}">
                             <i class="fas fa-shopping-cart"></i>
                             <span>Ventes</span>
                             <span class="nav-badge">12</span>
