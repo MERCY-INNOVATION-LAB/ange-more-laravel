@@ -114,7 +114,7 @@
 
     @include('sidebar')
 
-
+ 
     {{-- contenu principal --}}
 
     <div class="">

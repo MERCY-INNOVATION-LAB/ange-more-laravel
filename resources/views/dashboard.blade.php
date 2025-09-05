@@ -49,6 +49,8 @@
     background: linear-gradient(135deg, var(--bg) 0%, #f1f5f9 100%);
     min-height: 100vh;
     position: relative;
+    transition: all 0.3s ease;
+
   }
 
   .main-content::before {
@@ -959,7 +961,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     ticks: {
                         callback: function(value) {
-                            return value + '€';
+                            return value + 'FCFA';
                         }
                     }
                 },

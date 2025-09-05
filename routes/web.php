@@ -18,7 +18,7 @@ Route::get('/', function () {
 
 Route::get('/login-register', function () {
     return view('login_register');
-})->name('login-register');
+})->name('login');
 
 Route::post('/register',[RegisterController::class,'register']);
 
@@ -72,6 +72,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/produits', [ProductController::class,'index'])->name('produit');
 
     Route::post('/produit-create', [ProductController::class,'store']);
+
+    
 
     Route::get('/ventes',[SaleController::class,'index'])->name('vente');
 

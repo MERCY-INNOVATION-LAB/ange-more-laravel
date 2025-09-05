@@ -280,53 +280,51 @@
             </div>
         </div>
 
-        <div class="row g-3">
-                <div class="col-xxl-2 col-lg-4 col-md-4 col-sm-6">
-                    <div class="card-style-1">
-                        <div class="p-3">
-                            <h6 class="product-name mb-2">iPhone 15 Pro Max</h6>
-                            <div class="product-price mb-2">450000 FCFA</div>
-                            <span class="product-stock stock-high mb-3 d-block">
-                                <i class="fas fa-circle"></i> 15 en stock
-                            </span>
-                            <button class="btn btn-add">
-                                <i class="fas fa-plus me-1"></i>Ajouter
-                            </button>
+        <div class="row g-3 d-flex">
+        
+            <div class="col-8">
+                <div class="row g-3">
+                    @foreach($prods as $prod)
+                    <div class="col-xxl-2 col-lg-5 col-md-4 col-sm-6">
+                        <div class="card-style-1">
+                            <div class="p-3">
+                                <h6 class="product-name mb-2">{{$prod->nom}}</h6>
+                                <span class="text-muted fs-6" style="">{{$prod->description}}</span>
+                                <div class="product-price mb-2">{{$prod->prix}} FCFA</div>
+                                <span class="product-stock stock-high mb-3 d-block">
+                                    <i class="fas fa-circle"></i> {{$prod->quantite}} en stock
+                                </span>
+                                <div class="mb-3">
+                                    <label for="quantity-{{$prod->id}}" class="form-label">Quantité :</label>
+                                    <input type="number" id="quantity-{{$prod->id}}" class="form-control" 
+                                        value="1" min="1" max="{{$prod->quantite}}">
+                                </div>
+                                <button class="btn btn-add">
+                                    <i class="fas fa-plus me-1"></i>Ajouter
+                                </button>
+                            </div>
                         </div>
                     </div>
+                    @endforeach 
                 </div>
-                <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6">
-                    <div class="card-style-1">
-                        <div class="p-3">
-                            <h6 class="product-name mb-2">MacBook Air M2</h6>
-                            <div class="product-price mb-2">350000 FCFA</div>
-                            <span class="product-stock stock-low mb-3 d-block">
-                                <i class="fas fa-circle"></i> 3 en stock
-                            </span>
-                            <button class="btn btn-add">
-                                <i class="fas fa-plus me-1"></i>Ajouter
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6">
-                    <div class="card-style-1">
-                        <div class="p-3">
-                            <h6 class="product-name mb-2">AirPods Pro</h6>
-                            <div class="product-price mb-2">12000 FCFA</div>
-                            <span class="product-stock stock-out mb-3 d-block">
-                                <i class="fas fa-circle"></i> Rupture
-                            </span>
-                            <button class="btn btn-add" disabled>
-                                <i class="fas fa-times me-1"></i>Indisponible
-                            </button>
-                        </div>
+            </div>
+
+            <div class="col-4 panier">
+                <div class="card-style-1">
+                    <div class="p-3">
+                        <span class="product-stock stock-high  text-center fs-5 mb-3 d-block">
+                            Panier
+                        </span>
+                        
+                        <!-- <h6 class="product-name mb-2"></h6>
+                        <span class="text-muted fs-6" style=""></span>
+                        <div class="product-price mb-2"></div> -->
                     </div>
                 </div>
             </div>
+        </div>
         
 
-        <!-- Message si aucun produit trouvé -->
         <div class="text-center py-5 d-none" id="noProductsMessage">
             <div class="text-muted">
                 <i class="fas fa-search fs-1 mb-3 opacity-50"></i>
@@ -339,29 +337,6 @@
 </div>
 
 <script>
-// Variables globales
-let cart = [];
-let cartCount = 0;
-
-// Fonction pour ajouter au panier
-function addToCart(productId) {
-    cart.push(productId);
-    cartCount++;
-    document.getElementById('cartCount').textContent = cartCount;
-    
-    // Animation du compteur
-    const cartElement = document.getElementById('cartCount');
-    cartElement.style.transform = 'scale(1.3)';
-    cartElement.style.color = '#2563eb';
-    
-    setTimeout(() => {
-        cartElement.style.transform = 'scale(1)';
-        cartElement.style.color = '';
-    }, 200);
-    
-    // Notification
-    showNotification('Produit ajouté au panier!', 'success');
-}
 
 // Fonction de recherche
 document.getElementById('searchProduct').addEventListener('input', function(e) {
@@ -390,35 +365,6 @@ document.getElementById('searchProduct').addEventListener('input', function(e) {
     }
 });
 
-// Fonction de notification
-function showNotification(message, type = 'info') {
-    const colors = {
-        'success': 'bg-success',
-        'error': 'bg-danger',
-        'info': 'bg-primary'
-    };
-    
-    const notification = document.createElement('div');
-    notification.className = `toast align-items-center text-white ${colors[type]} border-0 position-fixed top-0 end-0 m-3`;
-    notification.style.zIndex = '9999';
-    notification.innerHTML = `
-        <div class="d-flex">
-            <div class="toast-body">
-                <i class="fas fa-check-circle me-2"></i>
-                ${message}
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-        </div>
-    `;
-    
-    document.body.appendChild(notification);
-    const bsToast = new bootstrap.Toast(notification);
-    bsToast.show();
-    
-    notification.addEventListener('hidden.bs.toast', () => {
-        notification.remove();
-    });
-}
 
 // Animation au chargement
 document.addEventListener('DOMContentLoaded', function() {

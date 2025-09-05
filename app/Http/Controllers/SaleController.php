@@ -33,6 +33,6 @@ class SaleController extends Controller
 
         $nbprods = Product::where('shop_id',$shop_id)->count();
 
-        return view('sales',compact('nbprods'));
+        return view('sales',compact('nbprods','prods'));
     }
 }
