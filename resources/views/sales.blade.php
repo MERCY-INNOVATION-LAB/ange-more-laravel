@@ -1,6 +1,10 @@
 @extends('layouts.layout_proprio')
 
 @section('content')
+<!-- En-tête META et CSS -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
     :root {
@@ -239,105 +243,86 @@
 
 <div class="main-content">
     <div class="container-fluid">
-        
-        <div class="sales-header p-4 animate-fade-in">
+        <!-- En-tête de la page -->
+        <div class="sales-header p-4 mb-4">
             <div class="row align-items-center">
-                <div class="col-lg-4 col-md-6 mb-3 mb-lg-0">
-                    <div class="d-flex align-items-center">
-                        <div class="bg-primary rounded-3 p-3 me-3">
-                            <i class="fas fa-shopping-cart text-white fs-4"></i>
-                        </div>
-                        <div>
-                            <h3 class="mb-0 fw-bold text-dark">Gérer vos ventes</h3>
-                            <small class="text-muted">Sélectionnez les produits à vendre</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-3 mb-lg-0">
+                <div class="col-md-6">
+                    <h4 class="mb-3">Gestion des ventes</h4>
                     <div class="search-container">
                         <i class="fas fa-search search-icon"></i>
-                        <input type="text" 
-                               class="form-control search-input" 
-                               placeholder="Rechercher un produit..."
-                               id="searchProduct">
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-12">
-                    <div class="d-flex align-items-center justify-content-lg-end">
-                        <div class="d-flex align-items-center bg-white rounded-pill shadow-sm px-3 py-2 border">
-                            <div class="user-avatar">
-                                {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
-                            </div>
-                            <div>
-                                <div class="fw-semibold small text-dark">{{ Auth::user()->name ?? 'Utilisateur' }}</div>
-                                <div class="text-muted" style="font-size: 0.75rem;">Vendeur</div>
-                            </div>
-                        </div>
+                        <input type="text" id="searchProduct" class="form-control search-input" placeholder="Rechercher un produit...">
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row g-3 d-flex">
-        
+        <!-- Message aucun produit -->
+        <div id="noProductsMessage" class="alert alert-info d-none">
+            Aucun produit ne correspond à votre recherche.
+        </div>
+
+        <!-- Contenu principal -->
+        <div class="row g-4">
+            <!-- Liste des produits -->
             <div class="col-8">
-                <div class="row g-3">
+                <div class="row g-4">
                     @foreach($prods as $prod)
-                    <div class="col-xxl-2 col-lg-5 col-md-4 col-sm-6">
-                        <div class="card-style-1">
+                    <div class="col-xxl-3 col-lg-4 col-md-6 col-sm-6">
+                        <div class="card-style-1 product-card animate-fade-in" data-product-id="{{ $prod->id }}">
                             <div class="p-3">
-                                <h6 class="product-name mb-2">{{$prod->nom}}</h6>
-                                <span class="text-muted fs-6" style="">{{$prod->description}}</span>
-                                <div class="product-price mb-2">{{$prod->prix}} FCFA</div>
-                                <span class="product-stock stock-high mb-3 d-block">
-                                    <i class="fas fa-circle"></i> {{$prod->quantite}} en stock
-                                </span>
-                                <div class="mb-3">
-                                    <label for="quantity-{{$prod->id}}" class="form-label">Quantité :</label>
-                                    <input type="number" id="quantity-{{$prod->id}}" class="form-control" 
-                                        value="1" min="1" max="{{$prod->quantite}}">
+                                <div class="product-image mb-3">
+                                    @if($prod->image)
+                                        <img src="{{ asset('storage/' . $prod->image) }}" alt="{{ $prod->nom }}" class="img-fluid">
+                                    @else
+                                        <div class="no-image">
+                                            <i class="fas fa-box fa-2x"></i>
+                                        </div>
+                                    @endif
                                 </div>
-                                <button class="btn btn-add">
-                                    <i class="fas fa-plus me-1"></i>Ajouter
+                                <h6 class="product-name">{{ $prod->nom }}</h6>
+                                <div class="product-price">{{ number_format($prod->prix, 0, ',', ' ') }} FCFA</div>
+                                <span class="product-stock {{ $prod->quantite > 10 ? 'stock-high' : ($prod->quantite > 0 ? 'stock-low' : 'stock-out') }}">
+                                    <i class="fas fa-circle fs-6"></i>
+                                    {{ $prod->quantite }} en stock
+                                </span>
+                                <button class="btn-select-product" onclick="addToCart({{ $prod->id }}, '{{ $prod->nom }}', {{ $prod->prix }}, {{ $prod->quantite }})"
+                                    {{ $prod->quantite <= 0 ? 'disabled' : '' }}>
+                                    <i class="fas fa-plus me-2"></i>Ajouter
                                 </button>
                             </div>
                         </div>
                     </div>
-                    @endforeach 
+                    @endforeach
                 </div>
             </div>
 
+            <!-- Panier -->
             <div class="col-4 panier">
-                <div class="card-style-1">
+                <div class="card-style-1 sticky-top" style="top: 20px;">
                     <div class="p-3">
-                        <span class="product-stock stock-high  text-center fs-5 mb-3 d-block">
-                            Panier
+                        <span class="product-stock stock-high text-center fs-5 mb-3 d-block">
+                            <i class="fas fa-shopping-cart me-2"></i>Panier
                         </span>
-                        
-                        <!-- <h6 class="product-name mb-2"></h6>
-                        <span class="text-muted fs-6" style=""></span>
-                        <div class="product-price mb-2"></div> -->
+                        <div id="cart-items" class="mb-3">
+                            <!-- Les éléments du panier seront injectés ici -->
+                        </div>
+                        <div class="border-top pt-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="fw-bold">Total:</span>
+                                <span class="fw-bold text-primary" id="cart-total">0 FCFA</span>
+                            </div>
+                            <button class="btn-add w-100" onclick="processSale()" id="process-sale-btn" disabled>
+                                <i class="fas fa-check me-2"></i>Valider la vente
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-
-        <div class="text-center py-5 d-none" id="noProductsMessage">
-            <div class="text-muted">
-                <i class="fas fa-search fs-1 mb-3 opacity-50"></i>
-                <h5>Aucun produit trouvé</h5>
-                <p>Essayez avec d'autres mots-clés</p>
-            </div>
-        </div>
-
     </div>
 </div>
 
 <script>
-
 // Fonction de recherche
 document.getElementById('searchProduct').addEventListener('input', function(e) {
     const searchTerm = e.target.value.toLowerCase();
@@ -347,17 +332,14 @@ document.getElementById('searchProduct').addEventListener('input', function(e) {
     
     productCards.forEach(card => {
         const productName = card.querySelector('.product-name').textContent.toLowerCase();
-        const parentCol = card.closest('.col-xl-2, .col-lg-3, .col-md-4, .col-sm-6');
-        
         if (productName.includes(searchTerm)) {
-            parentCol.style.display = 'block';
+            card.style.display = '';
             hasVisibleProducts = true;
         } else {
-            parentCol.style.display = 'none';
+            card.style.display = 'none';
         }
     });
     
-    // Afficher/masquer le message "aucun produit"
     if (hasVisibleProducts || searchTerm === '') {
         noProductsMessage.classList.add('d-none');
     } else {
@@ -365,21 +347,133 @@ document.getElementById('searchProduct').addEventListener('input', function(e) {
     }
 });
 
-
 // Animation au chargement
 document.addEventListener('DOMContentLoaded', function() {
     const cards = document.querySelectorAll('.animate-fade-in');
-    cards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        
-        setTimeout(() => {
-            card.style.transition = 'all 0.5s ease-out';
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        }, index * 100);
-    });
+    if (cards) {
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+    }
 });
+
+// Initialisation du panier
+let cart = [];
+const MAX_QUANTITY = 99;
+
+// Fonction pour ajouter un produit au panier
+function addToCart(id, nom, prix, quantite_max) {
+    const existingItem = cart.find(item => item.id === id);
+    
+    if (existingItem) {
+        if (existingItem.quantite < Math.min(quantite_max, MAX_QUANTITY)) {
+            existingItem.quantite++;
+            updateCartDisplay();
+        } else {
+            alert('Quantité maximum atteinte pour ce produit');
+        }
+    } else {
+        cart.push({
+            id: id,
+            nom: nom,
+            prix: prix,
+            quantite: 1,
+            quantite_max: quantite_max
+        });
+        updateCartDisplay();
+    }
+}
+
+// Fonction pour retirer un produit du panier
+function removeFromCart(id) {
+    cart = cart.filter(item => item.id !== id);
+    updateCartDisplay();
+}
+
+// Fonction pour modifier la quantité d'un produit
+function updateQuantity(id, delta) {
+    const item = cart.find(item => item.id === id);
+    if (item) {
+        const newQuantity = item.quantite + delta;
+        if (newQuantity > 0 && newQuantity <= Math.min(item.quantite_max, MAX_QUANTITY)) {
+            item.quantite = newQuantity;
+            updateCartDisplay();
+        }
+    }
+}
+
+// Fonction pour mettre à jour l'affichage du panier
+function updateCartDisplay() {
+    const cartContainer = document.getElementById('cart-items');
+    const total = cart.reduce((sum, item) => sum + (item.prix * item.quantite), 0);
+    
+    cartContainer.innerHTML = cart.map(item => `
+        <div class="cart-item mb-3 pb-3 border-bottom">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="product-name mb-0">${item.nom}</h6>
+                <button class="btn btn-sm text-danger" onclick="removeFromCart(${item.id})">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="quantity-controls">
+                    <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${item.id}, -1)">-</button>
+                    <span class="mx-2">${item.quantite}</span>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${item.id}, 1)">+</button>
+                </div>
+                <div class="text-primary fw-bold">
+                    ${(item.prix * item.quantite).toLocaleString()} FCFA
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    document.getElementById('cart-total').textContent = `${total.toLocaleString()} FCFA`;
+    document.getElementById('process-sale-btn').disabled = cart.length === 0;
+}
+
+// Fonction pour traiter la vente
+function processSale() {
+    if (cart.length === 0) return;
+
+    // Préparer les données de la vente
+    const saleData = {
+        items: cart.map(item => ({
+            product_id: item.id,
+            quantite: item.quantite,
+            prix: item.prix
+        }))
+    };
+
+    // Envoyer la requête au serveur
+    fetch('/api/sales', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify(saleData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Vente effectuée avec succès !');
+            cart = [];
+            updateCartDisplay();
+            // Recharger la page pour mettre à jour les stocks
+            window.location.reload();
+        } else {
+            alert('Erreur lors de la vente : ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        alert('Une erreur est survenue lors du traitement de la vente');
+    });
+}
 </script>
 
 @endsection

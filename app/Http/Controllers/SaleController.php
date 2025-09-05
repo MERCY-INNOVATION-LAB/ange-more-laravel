@@ -33,4 +33,12 @@ class SaleController extends Controller
 
         return view('sales', compact('nbprods', 'prods'));
     }
+
+    public function store(){
+        return response()->json([
+            'success' => true,
+            'message' => 'Store method called'
+        ],
+             200);
+    }
 }
