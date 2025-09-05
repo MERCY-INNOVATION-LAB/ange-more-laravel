@@ -1,18 +1,17 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-use App\Models\User;
+
 use App\Http\Controllers\Controller;
+use App\Mail\ForgotPasswordMail;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Auth;
-use App\Mail\ForgotPasswordMail;
-
 
 class RegisterController extends Controller
 {
-
     public function register(Request $request)
     {
         // $request->validate([
@@ -21,16 +20,18 @@ class RegisterController extends Controller
         //     'password' => 'required|confirmed|min:6',
         // ]);
 
-        $user=User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
         Auth::login($user);
+
         return redirect('/boutique-create');
         // return redirect('/dashboqrd')->with('success', 'Inscription réussie. Connectez-vous.');
     }
+
     public function login(Request $request)
     {
         $request->validate([
@@ -38,35 +39,38 @@ class RegisterController extends Controller
             'password' => 'required|string',
         ]);
 
-        $name = $request-> email;
-        $password = $request-> password;
-        $user = User::where('email',$name)->first(); // recuperer la premiere aucurrence dans la bd
-        if($user){
-            if(password_verify($password, $user->password)){
-                return redirect('/select-boutique')->with('success','Connexion reussie');
+        $name = $request->email;
+        $password = $request->password;
+        $user = User::where('email', $name)->first(); // recuperer la premiere aucurrence dans la bd
+        if ($user) {
+            if (password_verify($password, $user->password)) {
+                return redirect('/select-boutique')->with('success', 'Connexion reussie');
             }
-            return redirect('/login-register')->with('error','les identifiants ne correspondent pas aux enregistrements');
+
+            return redirect('/login-register')->with('error', 'les identifiants ne correspondent pas aux enregistrements');
 
         }
-        return redirect('/login-register')->with('errors','utilisateur introuvable');
+
+        return redirect('/login-register')->with('errors', 'utilisateur introuvable');
 
     }
 
+    public function forgotPassword(Request $request)
+    {
+        $email = $request->email;
 
-    public function forgotPassword(Request $request){
-        $email=$request->email;
+        $user = User::where('email', $email)->first();
 
-        $user=User::where('email',$email)->first();
+        if ($user) {
 
-        if($user){
+            Mail::to($user->email)->send(new ForgotPasswordMail($user->email));
 
-            Mail::to($user->email)->send(new ForgotPasswordMail($user->email)); 
-
-            return redirect('/forgot-password')->with('success','Le lien de reinitialisation a ete envoye');
+            return redirect('/forgot-password')->with('success', 'Le lien de reinitialisation a ete envoye');
         }
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
 
         Auth::logout();
 
@@ -75,8 +79,6 @@ class RegisterController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/login-register');
-        
+
     }
 }
-
-
