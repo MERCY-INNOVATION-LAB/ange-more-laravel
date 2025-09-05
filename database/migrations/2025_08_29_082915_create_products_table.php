@@ -16,7 +16,7 @@ return new class extends Migration
             $table->String('nom');
             $table->String('description');
             $table->double('prix');
-            $table->integer('quantite');       
+            $table->integer('quantite');
             $table->integer('quantite_min');
             $table->foreignId('category_id')->Constrained('categories')->onDelete('cascade');
             $table->foreignId('shop_id')->Constrained('shops')->onDelete('cascade');

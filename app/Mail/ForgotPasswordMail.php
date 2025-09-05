@@ -12,12 +12,12 @@ class ForgotPasswordMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $resetUrl; 
+    public $resetUrl;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($resetUrl) 
+    public function __construct($resetUrl)
     {
         $this->resetUrl = $resetUrl;
     }
@@ -40,7 +40,7 @@ class ForgotPasswordMail extends Mailable
         return new Content(
             view: 'password_forgot',
             with: [
-                'resetUrl' => $this->resetUrl, 
+                'resetUrl' => $this->resetUrl,
             ],
         );
     }

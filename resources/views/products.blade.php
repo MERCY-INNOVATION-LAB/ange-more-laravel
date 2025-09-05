@@ -1,4 +1,4 @@
-@extends('layouts\layout_proprio')
+@extends('layouts.layout_proprio')
 
 
 @section('content')

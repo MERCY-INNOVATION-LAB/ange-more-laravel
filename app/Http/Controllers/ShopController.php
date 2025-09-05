@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Shop;
-
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ShopController extends Controller
 {
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
-        $user=Auth::user();
+        $user = Auth::user();
 
-       $shop=Shop::create([
+        $shop = Shop::create([
             'nom' => $request->name,
             'description' => $request->description,
             'adresse' => $request->adresse,
@@ -24,25 +24,23 @@ class ShopController extends Controller
         return redirect('/select-boutique');
     }
 
-
-    public function index(){
+    public function index()
+    {
 
         $shops = Shop::where('user_id', auth()->id())->get();
 
         return view('dashboard', compact('shops'));
-        
+
     }
 
-    
     public function select()
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return redirect()->route('login-register');
         }
-    
-        // $shops = auth()->user()->shops ?? collect(); 
+
+        // $shops = auth()->user()->shops ?? collect();
         $shops = Shop::where('user_id', auth()->id())->get();
-    
 
         return view('select', compact('shops'));
     }
@@ -53,46 +51,41 @@ class ShopController extends Controller
 
     //         'shop_id' => 'required|exists:shops,id'
     //     ]);
-    
+
     //     // $shops = Shop::where('user_id', auth()->id())->get();
 
     //     // $shop = auth()->user()->shops->findOrFail($request->shop_id);
-    
 
     //     // $shopId = $request->shop_id;
 
     //     // session(['shop_id' => $shop->id]);
 
-       
-    
     //     $shop = Shop::where('id', $request->shop_id)
     //                 ->where('user_id', auth()->id())
     //                 ->firstOrFail();
 
     //     session(['shop_id' => $shop->id]);
-    
+
     //     return redirect()->route('dashboard')->with('success', 'Boutique sélectionnée : ' . $shop->nom);
     // }
-
-
 
     public function selected(Request $request)
     {
         // Valider que shop_id est bien envoyé et existe
         $request->validate([
-            'shop_id' => 'required|exists:shops,id'
+            'shop_id' => 'required|exists:shops,id',
         ]);
 
         // Récupérer la boutique correspondant à l'utilisateur
         $shop = Shop::where('id', $request->shop_id)
-                    ->where('user_id', Auth::id())
-                    ->firstOrFail();
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
 
         // Stocker l'ID de la boutique en session
         session(['shop_id' => $shop->id]);
 
         // Rediriger vers le dashboard avec un message de succès
         return redirect()->route('dashboard')
-                         ->with('success', 'Boutique sélectionnée : ');
+            ->with('success', 'Boutique sélectionnée : ');
     }
 }

@@ -4,13 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\User;
-
-use App\Models\Product;
-
 class Shop extends Model
 {
-    protected $fillable=[
+    protected $fillable = [
         'nom',
         'adresse',
         'description',
@@ -18,12 +14,14 @@ class Shop extends Model
         'user_id',
     ];
 
-    public function user(){
+    public function user()
+    {
 
         return $this->belongsTo(User::class);
     }
 
-    public function products(){
+    public function products()
+    {
 
         return $this->hasMany(Product::class);
     }
