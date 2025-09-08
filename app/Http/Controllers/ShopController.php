@@ -21,7 +21,7 @@ class ShopController extends Controller
             'user_id' => $user->id,
         ]);
 
-        return redirect('/select-boutique');
+        return redirect('/dashboard');
     }
 
     public function index()

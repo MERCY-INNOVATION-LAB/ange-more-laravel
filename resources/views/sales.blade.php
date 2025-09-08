@@ -21,19 +21,54 @@
       min-height: 100vh;
     }
 
-    /* Header personnalisé */
-    .sales-header {
-        background: linear-gradient(135deg, white 0%, #f0f4ff 100%);
-        border: 1px solid rgba(37, 99, 235, 0.1);
-        border-radius: 16px;
-        box-shadow: 0 4px 20px rgba(37, 99, 235, 0.05);
-        margin-bottom: 24px;
+    .sale-header {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+            border-top: 4px solid #2563eb;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+    .sale-header:hover {
+        transform: translateY(-2px);
     }
 
-    /* Barre de recherche personnalisée */
+    .icon-container {
+        background: linear-gradient(135deg, #2563eb, #3b82f6);
+        width: 60px;
+        height: 60px;
+        transition: transform 0.3s ease;
+    }
+
+    .icon-container:hover {
+        transform: scale(1.05);
+    }
+
+    .boutique-select {
+        background: linear-gradient(135deg, #fff5f5, #ffe5e5);
+        border: 2px solid #fed7d7;
+        color: #dc3545;
+        transition: all 0.3s ease;
+    }
+
+    .boutique-select:focus {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    }
+
+    .boutique-select:hover {
+        border-color: #dc3545;
+        transform: translateY(-1px);
+    }
+
+    .title-gradient {
+        background: linear-gradient(135deg, #2d3748, #4a5568);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
     .search-container {
         position: relative;
-        max-width: 400px;
+        width: 620px;
     }
 
     .search-input {
@@ -58,6 +93,24 @@
         transform: translateY(-50%);
         color: var(--primary-blue);
         z-index: 5;
+    }
+    .boutique-selector {
+    background: var(--brand-50);
+    border: 2px solid var(--brand-100);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-weight: 500;
+    color: var(--brand-700);
+    transition: var(--transition);
+    min-width: 180px;
+    font-size: 0.875rem;
+    }
+
+    .boutique-selector:focus {
+        outline: none;
+        border-color: var(--brand);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        background: white;
     }
 
     .user-avatar {
@@ -104,9 +157,6 @@
     .card-style-1:hover::before {
         transform: scaleX(1);
     }
-   
-
-    
 
     .product-card:hover {
         transform: translateY(-4px);
@@ -207,6 +257,23 @@
         color: white;
     }
 
+    .btn-add:disabled {
+        background: #6b7280;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .summary-item {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 8px;
+        border-left: 3px solid var(--primary-blue);
+    }
+
+    .summary-item:last-child {
+        margin-bottom: 0;
+    }
 
     @keyframes fadeInUp {
         from {
@@ -238,32 +305,127 @@
         .sales-header .row > div {
             margin-bottom: 1rem;
         }
+
+        .modal-dialog.modal-lg {
+            margin: 10px;
+            max-width: calc(100vw - 20px);
+        }
     }
 </style>
 
 <div class="main-content">
     <div class="container-fluid">
-        <!-- En-tête de la page -->
-        <div class="sales-header p-4 mb-4">
-            <div class="row align-items-center justify-content-between">
-                <div class="col-md-6">
-                    <h4 class="mb-3">Gestion des ventes</h4>
-                    <div class="search-container">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" id="searchProduct" class="form-control search-input" placeholder="Rechercher un produit...">
+        
+        <div class="sale-header bg-white rounded-4 shadow-sm p-4 mb-4 border border-primary border-opacity-10">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                
+                <div class="d-flex align-items-center flex-grow-1" style="min-width: 300px;">
+                    
+                    <div class="icon-container rounded-3 bg-primary d-flex align-items-center justify-content-center me-3 shadow">
+                        <i class="fas fa-boxes text-white fs-4"></i>
                     </div>
+                    
+                    <div>
+                        <h4 class="title-gradient fw-bold mb-1 fs-5">Gerer vos ventes</h4>
+                        <small class="text-muted fw-medium">Enregistrer des ventes et generer des factures</small>
+                    </div>
+                </div>
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchProduct" class="form-control search-input" placeholder="Rechercher un produit...">
+                </div>
+                
+                <div style="min-width: 250px;">
+                    <label class="form-label text-secondary fw-semibold text-uppercase small mb-2">
+                        <i class="fas fa-filter me-1"></i>
+                        Filtrer par boutique
+                    </label>
+                    <form action="#" method="GET" id="boutiqueFilterForm">
+                      @csrf
+                        <select name="shop_id" id="boutiqueSelect" class="boutique-select form-select fw-semibold rounded-3 shadow-sm">
+                          @if($shop)
+                              <option value="{{ $shop->id }}"
+                                  {{ request('shop_id') == $shop->id ? 'selected' : '' }}>
+                                  {{ $shop->nom }}
+                              </option>
+                          @endif
+                        </select>
+                    </form>
+                </div>
+                <div class="dropdown">
+                    <button class=" boutique-selector dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="user-avatar me-2 align-items-center">
+                        {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
+                        </div>
+                        <div class="d-none d-md-block text-start me-2">
+                            <div class="fw-semibold small">{{ Auth::user()->name ?? 'Utilisateur' }}</div>
+                            <div class="text-muted" style="font-size: 0.75rem;">Administrateur</div>
+                        </div>
+                    </button>
+                    
+                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0" style="min-width: 280px;">
+                        <li class="bg-primary text-white p-3 rounded-top">
+                            <div class="d-flex align-items-center">
+                                <div class="user-avatar-small me-3">
+                                <i class="fas fa-user"></i>
+                                <div>
+                                    <div class="fw-semibold">{{ Auth::user()->name ?? 'Utilisateur' }}</div>
+                                    <small class="opacity-75">{{ Auth::user()->email ?? 'email@example.com' }}</small>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li><hr class="dropdown-divider my-2"></li>
+                        
+                        <li>
+                            <a class="dropdown-item py-2" href="#">
+                                <i class="fas fa-envelope me-2 text-primary"></i>
+                                {{ Auth::user()->email ?? 'email@example.com' }}
+                            </a>
+                        </li>
+                        
+                        <li>
+                            <a class="dropdown-item py-2" href="#">
+                                <i class="fas fa-user me-2 text-info"></i>
+                                Mon Profil
+                            </a>
+                        </li>
+                        
+                        <li>
+                            <a class="dropdown-item py-2" href="#">
+                                <i class="fas fa-cog me-2 text-warning"></i>
+                                Paramètres
+                            </a>
+                        </li>
+                        
+                        <li>
+                            <a class="dropdown-item py-2" href="#">
+                                <i class="fas fa-bell me-2 text-secondary"></i>
+                                Notifications
+                                <span class="badge bg-danger ms-auto">3</span>
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider my-2"></li>
+                        
+                        <li>
+                            <a class="dropdown-item py-2 text-danger" 
+                            href="{{ route('logout') }}" 
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                Se déconnecter
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Message aucun produit -->
         <div id="noProductsMessage" class="alert alert-info d-none">
             Aucun produit ne correspond à votre recherche.
         </div>
 
-        <!-- Contenu principal -->
         <div class="row g-4">
-            <!-- Liste des produits -->
             <div class="col-8">
                 <div class="row g-4">
                     @foreach($prods as $prod)
@@ -295,26 +457,121 @@
                     @endforeach
                 </div>
             </div>
-
+            
             <!-- Panier -->
             <div class="col-4 panier">
-                <div class="card-style-1 sticky-top" style="top: 20px;">
+                <!-- Carte Panier Initiale -->
+                <div class="card-style-1 sticky-top" style="top: 20px;" id="cart-card">
                     <div class="p-3">
                         <span class="product-stock stock-high text-center fs-5 mb-3 d-block">
                             <i class="fas fa-shopping-cart me-2"></i>Panier
                         </span>
                         <div id="cart-items" class="mb-3">
-                            <!-- Les éléments du panier seront injectés ici -->
                         </div>
                         <div class="border-top pt-3">
                             <div class="d-flex justify-content-between mb-2">
                                 <span class="fw-bold">Total:</span>
                                 <span class="fw-bold text-primary" id="cart-total">0 FCFA</span>
                             </div>
-                            <button class="btn-add w-100" onclick="processSale()" id="process-sale-btn" disabled>
-                                <i class="fas fa-check me-2"></i>Valider la vente
+                        </div>
+                        <button class="btn-add w-100" onclick="showOrderSummary()" id="validate-cart-btn" disabled>
+                            <i class="fas fa-check me-2"></i>Valider la vente
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Carte Récapitulatif (cachée initialement) -->
+                <div class="card-style-1 sticky-top" style="top: 20px; display: none;" id="summary-card">
+                    <div class="p-3">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="product-stock stock-high text-center fs-5">
+                                <i class="fas fa-receipt me-2"></i>Récapitulatif
+                            </span>
+                            <button class="btn btn-outline-secondary btn-sm" onclick="backToCart()">
+                                <i class="fas fa-arrow-left"></i>
                             </button>
                         </div>
+                        
+                        <div id="order-summary-items" class="mb-3">
+                            <!-- Les articles seront injectés ici -->
+                        </div>
+                        
+                        <div class="border-top pt-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="fw-bold">Nombre d'articles:</span>
+                                <span class="fw-bold" id="total-items">0</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="fw-bold fs-5">Total à payer:</span>
+                                <span class="fw-bold text-primary fs-5" id="final-total">0 FCFA</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-add w-100" data-bs-toggle="modal" data-bs-target="#confirmSaleModal" id="continue-to-payment-btn">
+                            <i class="fas fa-arrow-right me-2"></i>Continuer vers le paiement
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de confirmation de vente amélioré -->
+            <div class="modal fade" id="confirmSaleModal" tabindex="-1" aria-labelledby="confirmSaleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <form id="confirmSaleForm" onsubmit="submitSaleForm(event)">
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title" id="confirmSaleModalLabel">
+                                    <i class="fas fa-cash-register me-2"></i>Finaliser la vente
+                                </h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Récapitulatif dans le modal -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 class="mb-3"><i class="fas fa-list me-2"></i>Récapitulatif de la commande</h6>
+                                        <div id="modal-order-summary" class="mb-3">
+                                            <!-- Récapitulatif sera injecté ici -->
+                                        </div>
+                                        <div class="alert alert-info">
+                                            <strong>Total: <span id="modal-total">0 FCFA</span></strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="mb-3"><i class="fas fa-user me-2"></i>Informations client</h6>
+                                        <div class="mb-3">
+                                            <label for="clientName" class="form-label">Nom du client</label>
+                                            <input type="text" class="form-control" id="clientName" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="montantPercu" class="form-label">Montant perçu (FCFA)</label>
+                                            <input type="number" class="form-control" id="montantPercu" required min="0" oninput="calculateChange()">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="modePaiement" class="form-label">Mode de paiement</label>
+                                            <select class="form-select" id="modePaiement" required>
+                                                <option value="">-- Choisir --</option>
+                                                <option value="espèces">Espèces</option>
+                                                <option value="mobile money">Mobile Money</option>
+                                                <option value="carte bancaire">Carte Bancaire</option>
+                                                <option value="virement">Virement</option>
+                                            </select>
+                                        </div>
+                                        <div class="alert alert-warning" id="change-display" style="display: none;">
+                                            <strong>Monnaie à rendre: <span id="change-amount">0 FCFA</span></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    <i class="fas fa-times me-2"></i>Annuler
+                                </button>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-check me-2"></i>Confirmer la vente
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -323,7 +580,7 @@
 </div>
 
 <script>
-// Fonction de recherche
+
 document.getElementById('searchProduct').addEventListener('input', function(e) {
     const searchTerm = e.target.value.toLowerCase();
     const productCards = document.querySelectorAll('.product-card');
@@ -347,7 +604,6 @@ document.getElementById('searchProduct').addEventListener('input', function(e) {
     }
 });
 
-// Animation au chargement
 document.addEventListener('DOMContentLoaded', function() {
     const cards = document.querySelectorAll('.animate-fade-in');
     if (cards) {
@@ -360,11 +616,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Initialisation du panier
 let cart = [];
+let currentCartData = [];
 const MAX_QUANTITY = 99;
 
-// Fonction pour ajouter un produit au panier
 function addToCart(id, nom, prix, quantite_max) {
     const existingItem = cart.find(item => item.id === id);
     
@@ -373,7 +628,7 @@ function addToCart(id, nom, prix, quantite_max) {
             existingItem.quantite++;
             updateCartDisplay();
         } else {
-            alert('Quantité maximum atteinte pour ce produit');
+            showCustomAlert('Quantité maximum atteinte pour ce produit');
         }
     } else {
         cart.push({
@@ -387,13 +642,11 @@ function addToCart(id, nom, prix, quantite_max) {
     }
 }
 
-// Fonction pour retirer un produit du panier
 function removeFromCart(id) {
     cart = cart.filter(item => item.id !== id);
     updateCartDisplay();
 }
 
-// Fonction pour modifier la quantité d'un produit
 function updateQuantity(id, delta) {
     const item = cart.find(item => item.id === id);
     if (item) {
@@ -405,7 +658,6 @@ function updateQuantity(id, delta) {
     }
 }
 
-// Fonction pour mettre à jour l'affichage du panier
 function updateCartDisplay() {
     const cartContainer = document.getElementById('cart-items');
     const total = cart.reduce((sum, item) => sum + (item.prix * item.quantite), 0);
@@ -421,26 +673,159 @@ function updateCartDisplay() {
             <div class="d-flex justify-content-between align-items-center">
                 <div class="quantity-controls">
                     <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${item.id}, -1)">-</button>
-                    <span class="mx-2">${item.quantite}</span>
+                    <span class="mx-2 item-quantity">${item.quantite}</span>
                     <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${item.id}, 1)">+</button>
                 </div>
-                <div class="text-primary fw-bold">
+                <div class="text-primary fw-bold item-total">
                     ${(item.prix * item.quantite).toLocaleString()} FCFA
                 </div>
             </div>
+            <div class="d-none item-price">${item.prix.toLocaleString()} FCFA</div>
         </div>
     `).join('');
 
     document.getElementById('cart-total').textContent = `${total.toLocaleString()} FCFA`;
-    document.getElementById('process-sale-btn').disabled = cart.length === 0;
+    
+    // Activer/désactiver le bouton de validation
+    const validateBtn = document.getElementById('validate-cart-btn');
+    validateBtn.disabled = cart.length === 0;
 }
 
-// Fonction pour traiter la vente
-function processSale() {
-    if (cart.length === 0) return;
+function showOrderSummary() {
+    if (cart.length === 0) {
+        showCustomAlert("Votre panier est vide !");
+        return;
+    }
+    
+    // Récupérer les données du panier
+    const cartTotal = document.getElementById('cart-total').textContent;
+    
+    // Collecter les données des articles
+    currentCartData = [];
+    let totalItems = 0;
+    
+    cart.forEach(item => {
+        currentCartData.push({
+            name: item.nom,
+            quantity: item.quantite,
+            price: item.prix.toLocaleString() + ' FCFA',
+            total: (item.prix * item.quantite).toLocaleString() + ' FCFA'
+        });
+        
+        totalItems += item.quantite;
+    });
+    
+    // Générer le HTML du récapitulatif
+    const summaryHTML = currentCartData.map(item => `
+        <div class="summary-item">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="fw-bold">${item.name}</div>
+                    <small class="text-muted">${item.quantity} × ${item.price}</small>
+                </div>
+                <div class="fw-bold text-primary">${item.total}</div>
+            </div>
+        </div>
+    `).join('');
+    
+    // Mettre à jour la carte récapitulatif
+    document.getElementById('order-summary-items').innerHTML = summaryHTML;
+    document.getElementById('total-items').textContent = totalItems;
+    document.getElementById('final-total').textContent = cartTotal;
+    
+    // Cacher la carte panier et afficher le récapitulatif
+    document.getElementById('cart-card').style.display = 'none';
+    document.getElementById('summary-card').style.display = 'block';
+}
 
-    // Préparer les données de la vente
+function backToCart() {
+    // Retour à la carte panier
+    document.getElementById('summary-card').style.display = 'none';
+    document.getElementById('cart-card').style.display = 'block';
+}
+
+// Quand le modal s'ouvre, mettre à jour le récapitulatif dans le modal
+document.getElementById('confirmSaleModal').addEventListener('show.bs.modal', function() {
+    // Mettre à jour le récapitulatif dans le modal
+    const modalSummaryHTML = currentCartData.map(item => `
+        <div class="d-flex justify-content-between mb-2">
+            <span>${item.name} (${item.quantity})</span>
+            <span>${item.total}</span>
+        </div>
+    `).join('');
+    
+    document.getElementById('modal-order-summary').innerHTML = modalSummaryHTML;
+    document.getElementById('modal-total').textContent = document.getElementById('final-total').textContent;
+});
+
+function calculateChange() {
+    const totalText = document.getElementById('final-total').textContent;
+    const total = parseFloat(totalText.replace(/[^\d]/g, '')) || 0;
+    const received = parseFloat(document.getElementById('montantPercu').value) || 0;
+    const change = received - total;
+    
+    const changeDisplay = document.getElementById('change-display');
+    const changeAmount = document.getElementById('change-amount');
+    
+    if (received > 0 && change >= 0) {
+        changeAmount.textContent = change.toLocaleString() + ' FCFA';
+        changeDisplay.style.display = 'block';
+        if (change > 0) {
+            changeDisplay.className = 'alert alert-warning';
+        } else {
+            changeDisplay.className = 'alert alert-success';
+        }
+    } else {
+        changeDisplay.style.display = 'none';
+    }
+}
+
+function showCustomAlert(message) {
+    const modal = document.createElement('div');
+    modal.className = 'fixed-top d-flex align-items-center justify-content-center';
+    modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999;';
+    modal.innerHTML = `
+        <div class="bg-white p-4 rounded shadow-lg" style="max-width: 400px; margin: 20px;">
+            <div class="text-center mb-3">
+                <i class="fas fa-exclamation-circle text-warning fs-1"></i>
+            </div>
+            <p class="text-center mb-4">${message}</p>
+            <div class="text-center">
+                <button class="btn btn-primary" onclick="this.closest('.fixed-top').remove()">OK</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+function submitSaleForm(event) {
+    // event.preventDefault(); // Empêche le rechargement de la page
+
+    if (cart.length === 0) {
+        showCustomAlert("Votre panier est vide !");
+        return;
+    }
+
+    const clientName = document.getElementById('clientName').value.trim();
+    const montantPercu = parseFloat(document.getElementById('montantPercu').value);
+    const modePaiement = document.getElementById('modePaiement').value;
+    const total = cart.reduce((sum, item) => sum + (item.prix * item.quantite), 0);
+
+    if (!clientName) {
+        showCustomAlert("Veuillez entrer le nom du client.");
+        return;
+    }
+
+    if (isNaN(montantPercu) || montantPercu < total) {
+        showCustomAlert("Le montant perçu doit être supérieur ou égal au total (" + total.toLocaleString() + " FCFA).");
+        return;
+    }
+
     const saleData = {
+        client_name: clientName,
+        montant_recu: montantPercu,
+        mode_paiement: modePaiement,
+        total: total,
         items: cart.map(item => ({
             product_id: item.id,
             quantite: item.quantite,
@@ -448,7 +833,11 @@ function processSale() {
         }))
     };
 
-    // Envoyer la requête au serveur
+    const submitBtn = document.querySelector('#confirmSaleForm button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Traitement...';
+    submitBtn.disabled = true;
+
     fetch('/api/sales', {
         method: 'POST',
         headers: {
@@ -460,20 +849,33 @@ function processSale() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            alert('Vente effectuée avec succès !');
+            showCustomAlert('Vente effectuée avec succès !');
             cart = [];
             updateCartDisplay();
-            // Recharger la page pour mettre à jour les stocks
-            window.location.reload();
+
+            const modal = bootstrap.Modal.getInstance(document.getElementById('confirmSaleModal'));
+            modal.hide();
+
+            setTimeout(() => {
+                backToCart();
+                document.getElementById('confirmSaleForm').reset();
+                document.getElementById('change-display').style.display = 'none';
+            }, 500);
         } else {
-            alert('Erreur lors de la vente : ' + data.message);
+            showCustomAlert('Erreur lors de la vente : ' + data.message);
         }
     })
     .catch(error => {
         console.error('Erreur:', error);
-        alert('Une erreur est survenue lors du traitement de la vente');
+        showCustomAlert('Une erreur est survenue lors du traitement de la vente');
+    })
+    .finally(() => {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
     });
 }
+
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
 
 @endsection

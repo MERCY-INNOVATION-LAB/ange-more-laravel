@@ -33,41 +33,23 @@ class RegisterController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|string',
+    ]);
 
-        $name = $request->email;
-        $password = $request->password;
-        $user = User::where('email', $name)->first(); // recuperer la premiere aucurrence dans la bd
-        if ($user) {
-            if (password_verify($password, $user->password)) {
-                return redirect('/select-boutique')->with('success', 'Connexion reussie');
-            }
+    $credentials = $request->only('email', 'password');
 
-            return redirect('/login-register')->with('error', 'les identifiants ne correspondent pas aux enregistrements');
+    if (Auth::attempt($credentials)) {
+        
+        $request->session()->regenerate(); 
 
-        }
-
-        return redirect('/login-register')->with('errors', 'utilisateur introuvable');
-
+        return redirect('/select-boutique')->with('success', 'Connexion réussie');
     }
 
-    public function forgotPassword(Request $request)
-    {
-        $email = $request->email;
-
-        $user = User::where('email', $email)->first();
-
-        if ($user) {
-
-            Mail::to($user->email)->send(new ForgotPasswordMail($user->email));
-
-            return redirect('/forgot-password')->with('success', 'Le lien de reinitialisation a ete envoye');
-        }
-    }
+    return redirect('/login-register')->with('error', 'Identifiants invalides');
+}
 
     public function logout(Request $request)
     {

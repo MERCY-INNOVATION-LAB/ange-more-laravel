@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sales', function (Blueprint $table) {
+        Schema::create('sale_items', function (Blueprint $table) {
             $table->id();
-            $table->string('client_name');
-            $table->decimal('montant_recu', 12, 2);
-            $table->string('mode_paiement');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->decimal('total', 10, 2);
-            $table->String('status')->default('completed');
+            $table->foreignId('sale_id')->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->integer('quantite');
+            $table->decimal('prix', 10, 2);
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sales');
+        Schema::dropIfExists('sale_items');
     }
 };

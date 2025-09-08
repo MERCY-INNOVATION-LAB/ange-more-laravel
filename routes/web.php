@@ -26,7 +26,7 @@ Route::post('/login', [RegisterController::class, 'login']);
 
 Route::post('/logout', [RegisterController::class, 'logout'])->name('logout');
 
-Route::get('/forgot-password', function () {
+Route::get('/password-forgot', function () {
     return view('password_forgot');
 });
 Route::post('/forgot-password', [RegisterController::class, 'forgotPassword']);
@@ -69,6 +69,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/ventes', [SaleController::class, 'index'])->name('vente');
 
+    Route::post('/api/sales', [SaleController::class, 'store'])->name('sales.store');
+
     Route::get('/parametres', [SettingController::class, 'index'])->name('setting');
 });
+
 require __DIR__.'/auth.php';

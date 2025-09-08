@@ -90,7 +90,7 @@
         <input type="password" class="form-control" id="password" name="password" placeholder="Entrer votre mot de passe" required>
         <label  class="form-label">Mot de passe</label>
         <p class="text-center mt-3">
-          <a href="/forgot-password">Mot de passe oublié ?</a>
+          <a href="/password-forgot">Mot de passe oublié ?</a>
         </p>
       </div>
       <div class="d-grid">
