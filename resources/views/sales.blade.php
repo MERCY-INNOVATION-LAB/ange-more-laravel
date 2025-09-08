@@ -245,7 +245,7 @@
     <div class="container-fluid">
         <!-- En-tête de la page -->
         <div class="sales-header p-4 mb-4">
-            <div class="row align-items-center">
+            <div class="row align-items-center justify-content-between">
                 <div class="col-md-6">
                     <h4 class="mb-3">Gestion des ventes</h4>
                     <div class="search-container">

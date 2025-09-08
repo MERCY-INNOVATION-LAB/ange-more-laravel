@@ -280,7 +280,7 @@
         
         <div class="sidebar-header">
             <a href="#" class="sidebar-logo">
-                <img src="./images/EzStore.png" class=""/>
+                <img src="./images/Ezstore.png" class=""/>
             </a>
         </div>
 
