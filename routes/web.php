@@ -26,7 +26,7 @@ Route::post('/login', [RegisterController::class, 'login']);
 
 Route::post('/logout', [RegisterController::class, 'logout'])->name('logout');
 
-Route::get('/password-forgot', function () {
+Route::get('/forgot-password', function () {
     return view('password_forgot');
 });
 Route::post('/forgot-password', [RegisterController::class, 'forgotPassword']);

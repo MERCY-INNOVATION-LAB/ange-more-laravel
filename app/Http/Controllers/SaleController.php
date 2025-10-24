@@ -9,6 +9,7 @@ use App\Models\SaleItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class SaleController extends Controller
 {
@@ -35,8 +36,9 @@ class SaleController extends Controller
         $nbprods = Product::where('shop_id', $shop_id)->count();
 
         return view('sales', compact('nbprods', 'prods','shop'));
-    }
 
+
+    }
     public function store(Request $request)
     {
         DB::beginTransaction();

@@ -53,14 +53,51 @@ class RegisterController extends Controller
 
     public function logout(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
 
-        Auth::logout();
+        $name = $request->email;
+        $password = $request->password;
+        $user = User::where('email', $name)->first(); // recuperer la premiere aucurrence dans la bd
+        if ($user) {
+            if (password_verify($password, $user->password)) {
+                return redirect('/select-boutique')->with('success', 'Connexion reussie');
+            }
 
-        $request->session()->invalidate();
+            return redirect('/login-register')->with('error', 'les identifiants ne correspondent pas aux enregistrements');
 
-        $request->session()->regenerateToken();
+        }
 
-        return redirect('/login-register');
+        return redirect('/login-register')->with('errors', 'utilisateur introuvable');
 
     }
+
+    public function forgotPassword(Request $request)
+    {
+        $email = $request->email;
+
+        $user = User::where('email', $email)->first();
+
+        if ($user) {
+
+            Mail::to($user->email)->send(new ForgotPasswordMail($user->email));
+
+            return redirect('/forgot-password')->with('success', 'Le lien de reinitialisation a ete envoye');
+        }
+    }
+
+    // public function logout(Request $request)
+    // {
+
+    //     Auth::logout();
+
+    //     $request->session()->invalidate();
+
+    //     $request->session()->regenerateToken();
+
+    //     return redirect('/login-register');
+
+    // }
 }

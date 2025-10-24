@@ -21,6 +21,7 @@ class DashboardController extends Controller
         // dd($shops);
         //   return view('dashboard', compact('shops'));
         if (! session()->has('shop_id')) {
+
             return redirect('/select-boutique')
                 ->with('error', 'Veuillez sélectionner une boutique.');
         }
